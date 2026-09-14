@@ -1,27 +1,31 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-body",
+  variable: "--font-body-var",
   display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
 });
+
+const TITLE = "iMahay, la sagesse malgache a portee de question";
+const DESCRIPTION =
+  "Ohabolana verifies, kabary, fomba. Pose ta question, iMahay repond dans ta langue et t'oriente vers le proverbe exact et la video qui l'explique. Gratuit, anonyme, ouvert jour et nuit.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://imahay.com"),
-  title: "iMahay.com · L'expert IA en sagesse malgache",
-  description:
-    "iMahay est un expert IA formé sur les ohabolana, le kabary et les fomba. Gratuit, anonyme, disponible 24/7. Et te protège contre les faux mpisikidy.",
+  title: TITLE,
+  description: DESCRIPTION,
   keywords: [
     "ohabolana",
     "kabary",
     "fomba malagasy",
     "sagesse malgache",
-    "mpisikidy",
-    "anti-arnaque",
-    "conseil malgache",
-    "expert IA",
+    "savoir-etre malgache",
+    "hira gasy",
+    "fihavanana",
+    "vodiondry",
     "Madagascar",
   ].join(", "),
   icons: {
@@ -33,52 +37,35 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   openGraph: {
-    title: "iMahay.com · L'expert IA en sagesse malgache",
-    description:
-      "Faharanitan-tsaina malagasy. Gratuit, anonyme, 24/7. Ohabolana, kabary, fomba · et protection contre les faux mpisikidy.",
+    title: TITLE,
+    description: DESCRIPTION,
     type: "website",
-    locale: "fr_FR",
-    siteName: "iMahay.com",
+    locale: "mg_MG",
+    alternateLocale: ["fr_FR", "en_US"],
+    siteName: "iMahay",
     url: "https://imahay.com",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "iMahay · La sagesse malgache te parle.",
-      },
-    ],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "iMahay, la sagesse malgache te parle." }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "iMahay.com · L'expert IA en sagesse malgache",
-    description: "Faharanitan-tsaina malagasy. Gratuit, anonyme, 24/7.",
+    title: TITLE,
+    description: "Ohabolana verifies, kabary, fomba. Gratuit, anonyme, ouvert jour et nuit.",
     images: ["/og-image.png"],
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={inter.variable}>
+    <html lang="mg" className={inter.variable}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body
-        style={{
-          margin: 0,
-          fontFamily: "var(--font-body), Inter, -apple-system, BlinkMacSystemFont, sans-serif",
-          background: "#FFFFFF",
-          color: "#1A1A1A",
-          WebkitFontSmoothing: "antialiased",
-        }}
-      >
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

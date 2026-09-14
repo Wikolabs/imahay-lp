@@ -1,0 +1,210 @@
+{
+  "note": "Chaque video a ete verifiee via l'endpoint oEmbed de YouTube. Le titre et la chaine sont ceux renvoyes par YouTube, pas une reecriture. scripts/check-videos.mjs revalide la liste, et la CI la passe une fois par semaine.",
+  "checked_at": "2026-09-14",
+  "categories": {
+    "kabary": {
+      "mg": "Kabary",
+      "fr": "Art oratoire"
+    },
+    "ohabolana": {
+      "mg": "Ohabolana",
+      "fr": "Proverbes expliques"
+    },
+    "fomba": {
+      "mg": "Fomba aman-panao",
+      "fr": "Coutumes et rites"
+    },
+    "hiragasy": {
+      "mg": "Hira gasy",
+      "fr": "Opera des champs"
+    }
+  },
+  "videos": [
+    {
+      "id": "K9dbz6kHswA",
+      "title": "Le Kabary malagasy, art oratoire malagasy",
+      "channel": "UNESCO",
+      "category": "kabary",
+      "themes": [
+        "fahendrena",
+        "fomba"
+      ],
+      "why": "Le dossier UNESCO du kabary : ses codes, ses formules d'ouverture, et la facon dont il se transmet."
+    },
+    {
+      "id": "OKe9QCHY5Dw",
+      "title": "Kabary fampianarana",
+      "channel": "Rold Mpikabary",
+      "category": "kabary",
+      "themes": [
+        "fianarana",
+        "fahendrena"
+      ],
+      "why": "Une lecon en malgache : comment on batit un kabary, et quel ton on prend devant l'assemblee."
+    },
+    {
+      "id": "BUzzP-dKg9I",
+      "title": "ART ORATOIRE - Hanitriniala Lilia Rakotonarivo ou la passion du \"kabary\" au féminin",
+      "channel": "2424mg",
+      "category": "kabary",
+      "themes": [
+        "fianarana",
+        "fitondrantena"
+      ],
+      "why": "Une mpikabary raconte son apprentissage et la place des femmes dans l'art oratoire."
+    },
+    {
+      "id": "EiYkMUXTZh0",
+      "title": "ANKOAY, MPIKABARY",
+      "channel": "2424mg",
+      "category": "kabary",
+      "themes": [
+        "fomba",
+        "fianarana"
+      ],
+      "why": "Portrait d'un mpikabary au travail, du choix des images au respect de l'assistance."
+    },
+    {
+      "id": "BbILujbSRB4",
+      "title": "Kabary am-panambadiana, Vodiondry Malagasy, Mpikabary, Mariage traditionnel.2024 MC Lafatra",
+      "channel": "Lafatra MC",
+      "category": "kabary",
+      "themes": [
+        "fanambadiana",
+        "fomba"
+      ],
+      "why": "Un vodiondry filme de bout en bout : les paroles echangees entre les deux familles."
+    },
+    {
+      "id": "7TQz9M8cG1g",
+      "title": "Kabary am-panambadiana 2026 Vodiondry MC Lafatra ",
+      "channel": "Lafatra MC",
+      "category": "kabary",
+      "themes": [
+        "fanambadiana"
+      ],
+      "why": "Un second vodiondry, pour entendre comment la meme ceremonie varie selon les familles."
+    },
+    {
+      "id": "To69YOQEupk",
+      "title": "FOMBA AMAN-PANAO – Ireo karazana tolo-bola tokony homanina rehefa hangata-bady",
+      "channel": "2424mg",
+      "category": "fomba",
+      "themes": [
+        "fanambadiana",
+        "fomba"
+      ],
+      "why": "Les offrandes a preparer pour une demande en mariage, nommees une par une."
+    },
+    {
+      "id": "kqU_PNuwhi8",
+      "title": "Fomba Malagasy: Famadihana 2016 (Amboanana Arivonimamo Antananarivo Madagasikara)",
+      "channel": "Studio Shoot' Pro",
+      "category": "fomba",
+      "themes": [
+        "fahoriana",
+        "fomba",
+        "fihavanana"
+      ],
+      "why": "Un famadihana reel : ce que la famille mobilise, et comment on se tient pendant le rite."
+    },
+    {
+      "id": "qojtpG0EDto",
+      "title": "Explication Proverbe Malgache : \"Aleo very tsikalakalam-bola toy izay very tsikalakalam-pihavanana\"",
+      "channel": "KILALAO TV",
+      "category": "ohabolana",
+      "themes": [
+        "fihavanana",
+        "asa"
+      ],
+      "why": "Le proverbe qui place le lien avant l'argent, explique ligne par ligne."
+    },
+    {
+      "id": "nsCWvpe061Y",
+      "title": "OHABOLANA - « Rafotsy be maty andro nandroana, sady tsy an’ny aty no tsy an’Ambondrombe »",
+      "channel": "2424mg",
+      "category": "ohabolana",
+      "themes": [
+        "fahendrena",
+        "fahoriana"
+      ],
+      "why": "L'origine d'un ohabolana sur le mauvais moment, replacee dans son contexte."
+    },
+    {
+      "id": "A8vXTXJS-V4",
+      "title": "TENY – Ohabolana sa fitenenan-draikitra ?",
+      "channel": "2424mg",
+      "category": "ohabolana",
+      "themes": [
+        "fahendrena",
+        "fianarana"
+      ],
+      "why": "La difference entre un ohabolana et un simple dicton, pour ne pas citer de travers."
+    },
+    {
+      "id": "rd5Gjmt6Y7Q",
+      "title": "Fihavanana way of life | Anjarasoa Kevin ANDRIANTSILAVONIARIVO | TEDxYouth@Antananarivo",
+      "channel": "TEDx Talks",
+      "category": "fomba",
+      "themes": [
+        "fihavanana",
+        "fitondrantena"
+      ],
+      "why": "Le fihavanana pris comme mode de vie, pas comme simple solidarite de famille."
+    },
+    {
+      "id": "UhhoH8B443o",
+      "title": "Le hira gasy, opéra des champs - Madagascar",
+      "channel": "Maison des Cultures du Monde - Centre français du patrimoine culturel immatériel",
+      "category": "hiragasy",
+      "themes": [
+        "asa",
+        "fitondrantena"
+      ],
+      "why": "Le hira gasy, ou la lecon de morale passe par le chant et la danse, sur la place du village."
+    },
+    {
+      "id": "JNBGR835pOU",
+      "title": "Du terrain à la scène #6 - MADAGASCAR. Le hira gasy, opéra des champs",
+      "channel": "Maison des Cultures du Monde - Centre français du patrimoine culturel immatériel",
+      "category": "hiragasy",
+      "themes": [
+        "fianarana",
+        "fomba"
+      ],
+      "why": "Lecture ethnomusicologique du hira gasy et de sa fonction sociale."
+    },
+    {
+      "id": "4uam7AOaHEo",
+      "title": "Hira Gasy – Travelling musicians from Madagascar - Ramilison Besigara Zokiny",
+      "channel": "madakous",
+      "category": "hiragasy",
+      "themes": [
+        "asa",
+        "fahoriana"
+      ],
+      "why": "Une troupe itinerante des hautes terres, du kabary d'ouverture jusqu'a la danse finale."
+    },
+    {
+      "id": "Z90VlbV7v4o",
+      "title": "HIRA GASY MADAGASCAR Tarika Ramilison Besigara Zanany",
+      "channel": "TROPICS TELEVISION",
+      "category": "hiragasy",
+      "themes": [
+        "fitondrantena",
+        "fihavanana"
+      ],
+      "why": "Des extraits chantes d'une troupe historique, et les conseils de conduite qu'ils portent."
+    }
+  ],
+  "searches": {
+    "fihavanana": "fihavanana malagasy fomba",
+    "fahendrena": "ohabolana malagasy hevitra",
+    "fitondrantena": "fitondran-tena malagasy fampianarana",
+    "asa": "hira gasy asa fiainana",
+    "fianarana": "fampianarana kabary malagasy",
+    "fanambadiana": "kabary am-panambadiana vodiondry",
+    "fahoriana": "famadihana fomba malagasy",
+    "fomba": "fomba aman-panao malagasy"
+  }
+}

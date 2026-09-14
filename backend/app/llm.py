@@ -1,11 +1,23 @@
-"""LLM helper: Groq (primary) -> Gemini (fallback). Shared by all demo endpoints."""
+"""Appel du modèle : Groq d'abord, Gemini en secours.
+
+Le modèle llama-3.3-70b-versatile a été retiré de Groq ; les appels tombaient donc
+systématiquement en secours. On passe sur les modèles servis aujourd'hui, du plus
+capable au plus rapide, et on descend la liste dès qu'un appel échoue.
+"""
 import os
 from typing import List, Dict, Tuple
 
 import httpx
 
-GROQ_MODEL = "llama-3.3-70b-versatile"
-GEMINI_MODEL = "gemini-2.5-flash"
+# Du plus capable au plus rapide. gpt-oss-120b répond en deux temps (raisonnement
+# puis réponse) : on demande un effort de raisonnement bas et on ne lit que le
+# champ content, jamais le champ reasoning.
+GROQ_MODELS = [
+    "openai/gpt-oss-120b",
+    "qwen/qwen3.8-27b",
+    "openai/gpt-oss-20b",
+]
+GEMINI_MODEL = "gemini-2.0-flash"
 
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
@@ -23,75 +35,71 @@ def is_configured() -> bool:
     return bool(_groq_key() or _gemini_key())
 
 
-async def _call_groq(messages: List[Dict[str, str]], max_tokens: int) -> str:
+async def _call_groq(model: str, messages: List[Dict[str, str]], max_tokens: int) -> str:
     key = _groq_key()
     if not key:
         raise RuntimeError("no_groq_key")
-    async with httpx.AsyncClient(timeout=30.0) as client:
+    payload: Dict[str, object] = {
+        "model": model,
+        "messages": messages,
+        "max_tokens": max_tokens,
+        "temperature": 0.7,
+    }
+    if model.startswith("openai/gpt-oss"):
+        payload["reasoning_effort"] = "low"
+    async with httpx.AsyncClient(timeout=45.0) as client:
         r = await client.post(
             GROQ_URL,
             headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-            json={
-                "model": GROQ_MODEL,
-                "messages": messages,
-                "temperature": 0.6,
-                "max_tokens": max_tokens,
-            },
+            json=payload,
         )
         r.raise_for_status()
         data = r.json()
-        return (data.get("choices", [{}])[0].get("message", {}).get("content") or "").strip()
+    text = (data["choices"][0]["message"].get("content") or "").strip()
+    if not text:
+        raise RuntimeError("empty_completion")
+    return text
 
 
 async def _call_gemini(messages: List[Dict[str, str]], max_tokens: int) -> str:
     key = _gemini_key()
     if not key:
         raise RuntimeError("no_gemini_key")
-    system = next((m["content"] for m in messages if m["role"] == "system"), "")
-    user_turns = [m for m in messages if m["role"] != "system"]
+    system = "\n\n".join(m["content"] for m in messages if m["role"] == "system")
     contents = [
-        {
-            "role": "model" if m["role"] == "assistant" else "user",
-            "parts": [{"text": m["content"]}],
-        }
-        for m in user_turns
+        {"role": "model" if m["role"] == "assistant" else "user", "parts": [{"text": m["content"]}]}
+        for m in messages
+        if m["role"] != "system"
     ]
-    url = GEMINI_URL.format(model=GEMINI_MODEL) + f"?key={key}"
-    body = {
+    body: Dict[str, object] = {
         "contents": contents,
-        "generationConfig": {
-            "temperature": 0.6,
-            "maxOutputTokens": max_tokens,
-            # Disable Gemini 2.5 internal thinking phase — it consumes most of the
-            # token budget before producing visible text and our prompts are short.
-            "thinkingConfig": {"thinkingBudget": 0},
-        },
+        "generationConfig": {"maxOutputTokens": max_tokens, "temperature": 0.7},
     }
     if system:
         body["systemInstruction"] = {"parts": [{"text": system}]}
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        r = await client.post(url, json=body, headers={"Content-Type": "application/json"})
+    url = GEMINI_URL.format(model=GEMINI_MODEL) + f"?key={key}"
+    async with httpx.AsyncClient(timeout=45.0) as client:
+        r = await client.post(url, json=body)
         r.raise_for_status()
         data = r.json()
-        return (
-            (data.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text") or "")
-        ).strip()
+    return data["candidates"][0]["content"]["parts"][0]["text"].strip()
 
 
-async def chat(messages: List[Dict[str, str]], max_tokens: int = 900) -> Tuple[str, str]:
-    """Returns (text, model_name). Gemini primary (better Malagasy mastery), Groq fallback."""
+async def chat(messages: List[Dict[str, str]], max_tokens: int = 600) -> Tuple[str, str]:
+    """Renvoie (texte, nom du modèle). Lève RuntimeError si aucun fournisseur ne répond."""
+    errors: List[str] = []
+
+    if _groq_key():
+        for model in GROQ_MODELS:
+            try:
+                return await _call_groq(model, messages, max_tokens), model
+            except Exception as exc:  # on descend la liste
+                errors.append(f"{model}: {exc}")
+
     if _gemini_key():
         try:
-            text = await _call_gemini(messages, max_tokens)
-            if text:
-                return text, GEMINI_MODEL
-        except Exception:
-            pass
-    if _groq_key():
-        try:
-            text = await _call_groq(messages, max_tokens)
-            if text:
-                return text, GROQ_MODEL
-        except Exception:
-            pass
-    raise RuntimeError("no_llm_available")
+            return await _call_gemini(messages, max_tokens), GEMINI_MODEL
+        except Exception as exc:
+            errors.append(f"{GEMINI_MODEL}: {exc}")
+
+    raise RuntimeError("; ".join(errors) or "no_provider")

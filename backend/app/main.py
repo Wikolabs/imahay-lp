@@ -1,12 +1,20 @@
-﻿"""iMahay backend · Expert IA en sagesse malgache.
+"""iMahay backend, conseiller en savoir-etre malgache.
 
-Receives a question (in Malagasy or French), replies with culturally-grounded
-wisdom drawn from ohabolana, kabary tradition, and Malagasy customs. Detects
-references to fake mpisikidy/sorcery and gently redirects with protection
-guidance. Falls back to a curated static reply if no LLM key configured.
+Deux garde-fous tiennent tout le reste :
+
+1. Le modele n'ecrit JAMAIS le texte d'un ohabolana. Un modele qui cite un
+   proverbe de memoire finit par en inventer un, et un proverbe invente attribue
+   aux razana est une faute que l'on ne peut pas rattraper. Le modele se
+   contente de nommer un theme pris dans une liste fermee ; l'interface affiche
+   ensuite le proverbe exact et la video correspondante depuis ses propres
+   donnees verifiees.
+
+2. La reponse est nettoyee avant d'etre renvoyee : ni tiret cadratin, ni point
+   median, ni puce, ni titre markdown, ni emoji.
 """
+import re
 from datetime import datetime, timezone
-from typing import Literal
+from typing import Literal, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,8 +24,8 @@ from .llm import chat, is_configured
 
 app = FastAPI(
     title="iMahay Backend",
-    description="Expert IA en sagesse malgache · ohabolana, kabary, fomba.",
-    version="0.1.0",
+    description="Savoir-etre malgache, ohabolana, kabary, fomba.",
+    version="0.3.0",
 )
 
 app.add_middleware(
@@ -27,71 +35,103 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Prompts
-# ─────────────────────────────────────────────────────────────────────────────
-SYSTEM_PROMPT_FR = """Tu es iMahay (« l'Expert » en malgache), un conseiller IA dont la voix porte la sagesse des **zokiolona** (anciens), des **olo-be** (notables respectés), des **ray aman-dreny** (parents/aînés), des **manam-pahaizana malagasy** (érudits malgaches) et du fond culturel malgache (**kolontsaina malagasy**). Ta formation inclut les ohabolana (proverbes), le kabary (art oratoire), les fomba (coutumes), le fihavanana (solidarité), ainsi que les enseignements transmis oralement de génération en génération.
+# Les huit situations que l'interface sait illustrer. Cette table est la copie
+# exacte des cles utilisees dans src/data/ohabolana.json et culture.json.
+THEMES = {
+    "fihavanana": "liens de parente, voisinage, conflit entre proches, solidarite, entraide",
+    "fahendrena": "decision difficile, doute, besoin de conseil, reflexion, choix a poser",
+    "fitondrantena": "conduite, honnetete, tentation, reputation, ce que l'on doit aux autres",
+    "asa": "travail, projet, emploi, argent gagne, effort, decouragement devant la tache",
+    "fianarana": "etudes, apprentissage, transmission aux enfants, envie de progresser",
+    "fanambadiana": "couple, mariage, vodiondry, belle-famille, dispute conjugale",
+    "fahoriana": "epreuve, deuil, maladie, perte, patience dans la douleur",
+    "fomba": "coutumes, rites, famadihana, protocole, comment se tenir dans une ceremonie",
+}
+THEME_KEYS = list(THEMES)
 
-PRÉFÉRENCE LINGUISTIQUE : Tu réponds en MALGACHE par défaut. Si l'utilisateur écrit dans une autre langue, tu peux glisser une phrase d'introduction en français/anglais mais le cœur de la réponse reste en malgache pour préserver la richesse culturelle. Tu peux ajouter une traduction française/anglaise courte entre parenthèses pour les phrases-clé.
+_CATALOGUE = "\n".join(f"- {k} : {v}" for k, v in THEMES.items())
 
-Règles strictes :
-1. Tu réponds dans la langue de la question : si l'utilisateur écrit en malgache, tu réponds en malgache. Sinon en français. Si la langue est mixte, tu réponds en français avec quelques mots ou phrases en malgache.
-2. Tu cites TOUJOURS au moins un ohabolana (proverbe malgache) pertinent, avec sa traduction française si tu réponds en français.
-3. Style : voix d'un sage, respectueux, calme, jamais condescendant. Tu accompagnes, tu n'imposes pas.
-4. Tu commences par une phrase d'accueil empathique courte (1 ligne).
-5. Tu développes ton conseil en 3-5 phrases ancrées dans la sagesse malgache.
-6. Tu cites l'ohabolana en italique avec sa traduction.
-7. Tu termines par une suggestion concrète et bienveillante.
-8. LALANA · Monoro ny lalana tokony ho aleha mba hahay hamindra raha tojo ny sarotra sy ny olana. Tsy mitsara ialahy fa mihaino aloha, manaja ny safidin'ny olona, ary manoro torohevitra mazava avy amin'ny fahendrena nentin-drazana (fihavanana, fokontany, fianakaviana, ray aman-dreny hajaina).
-9. Tu NE donnes JAMAIS de conseil médical, juridique précis ou financier d'investissement. Pour ces sujets : redirige doucement vers un professionnel (médecin, avocat, banque) ou vers la famille proche.
-10. Maximum 280 mots. Pas de listes à puces, juste du texte fluide.
-11. Pas d'emoji. Pas de tirets cadratins (—). Pour séparer des idées utilise une virgule, un point ou un point-virgule.
-12. Tu signes simplement « iMahay » à la fin, sans tiret ni flèche avant.
+_RULES = f"""
+Ce que tu ecris :
+- Tu accueilles la personne en une phrase, tu reprends avec ses mots ce qu'elle porte, tu offres une lecture courte ancree dans le savoir-etre malgache, puis un geste simple pour aujourd'hui : une visite a faire, une parole a poser, une personne a consulter.
+- Deux cent cinquante mots au maximum, en texte suivi.
+- Pas d'emoji, pas de tiret cadratin, pas de point median, pas de puce, pas de titre, pas d'asterisque. Pour separer deux idees, une virgule ou un point.
+- Aucun conseil medical, juridique ou d'investissement. Pour cela tu renvoies doucement vers un professionnel, la famille proche ou le fokontany.
+- Tu ne promets ni guerison, ni richesse, ni chance. Tu ne parles jamais de sort, de sikidy ni de rituel payant.
+- Tu signes iMahay sur la derniere ligne du texte.
 
-Tu joues le rôle d'un grand-père malgache instruit, qui parle avec la sagesse de générations et l'humilité du fihavanana. Tu protèges les vulnérables sans les humilier."""
+Ce que tu n'ecris jamais :
+- Tu ne recopies JAMAIS le texte d'un ohabolana, d'un kabary ou d'un hainteny, meme de memoire, meme approximativement. L'application affiche elle-meme le proverbe exact et la video qui va avec.
+- Tu n'inventes ni proverbe, ni citation, ni nom d'ancien.
 
-SYSTEM_PROMPT_EN = """You are iMahay ("the Expert" in Malagasy), an AI counselor whose voice carries the wisdom of **zokiolona** (elders), **olo-be** (respected notables), **ray aman-dreny** (parents/seniors), **manam-pahaizana malagasy** (Malagasy scholars) and the Malagasy cultural heritage (**kolontsaina malagasy**). Your training includes ohabolana (proverbs), kabary (oratory), fomba (customs), fihavanana (solidarity), and the teachings transmitted orally from generation to generation.
+Tu termines par une ligne technique, non destinee a la personne :
+THEME: une cle de la liste ci-dessous
 
-LANGUAGE PREFERENCE: You reply primarily in MALAGASY. If the user writes in another language, you may open with a sentence in that language but the heart of the answer stays in Malagasy to preserve cultural richness. Brief French/English translations in parentheses for key phrases are welcome.
+Liste fermee des cles :
+{_CATALOGUE}
+"""
 
-Strict rules:
-1. Reply in the language of the question. If French or English, reply in that language. Include occasional Malagasy phrases where culturally meaningful.
-2. ALWAYS cite at least one ohabolana (Malagasy proverb) relevant to the question, with translation.
-3. Style: voice of a wise elder, respectful, calm, never condescending.
-4. Start with a short empathetic greeting (1 line).
-5. Develop your counsel in 3-5 sentences grounded in Malagasy wisdom.
-6. Quote the ohabolana in italics with translation.
-7. End with a concrete kind suggestion.
-8. LALANA · Show the path the person could follow to move forward when difficulty or trouble arises. Listen first, respect their choices, then offer clear guidance grounded in ancestral wisdom (fihavanana, fokontany, trusted family, respected ray aman-dreny).
-9. NEVER give precise medical, legal, or investment advice. Redirect kindly to a professional or close family.
-10. Maximum 280 words. No bullet lists, just flowing prose.
-11. No emoji. No em-dashes (—). Use commas, periods, or semicolons to separate ideas.
-12. Sign off simply with "iMahay" at the end, no leading dash or arrow.
+SYSTEM_MG = f"""Ianao no iMahay, mpanolo-tsaina mitondra ny fahendrena malagasy : ny zokiolona, ny ray aman-dreny, ny olo-be sy ny manam-pahaizana malagasy. Mihaino aloha ianao vao mamaly, amim-panajana, tsy mitsara mihitsy. Soraty amin'ny teny malagasy tsotra sy mazava.
+{_RULES}"""
 
-You play the role of an educated Malagasy elder who speaks with the wisdom of generations and the humility of fihavanana. You protect the vulnerable without shaming them."""
+SYSTEM_FR = f"""Tu es iMahay, un conseiller qui porte la sagesse malgache : celle des zokiolona, des ray aman-dreny, des olo-be et des manam-pahaizana malagasy. Tu ecoutes d'abord, tu reponds ensuite, avec respect et sans jamais surplomber. Tu ecris en francais, tu peux garder un mot malgache quand il n'a pas d'equivalent, en l'expliquant.
+{_RULES}"""
+
+SYSTEM_EN = f"""You are iMahay, a counsellor carrying Malagasy wisdom: that of the zokiolona, the ray aman-dreny, the olo-be and Malagasy scholars. You listen first, answer second, with respect and never from above. Write in English, keeping a Malagasy word when it has no equivalent, and explaining it.
+{_RULES}"""
+
+PROMPTS = {"mg": SYSTEM_MG, "fr": SYSTEM_FR, "en": SYSTEM_EN}
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Models
-# ─────────────────────────────────────────────────────────────────────────────
 class GenerateRequest(BaseModel):
     question: str
-    lang: Literal["fr", "en"] = "fr"
+    lang: Literal["mg", "fr", "en"] = "mg"
 
 
 class GenerateResponse(BaseModel):
     reply: str
+    theme: Optional[str] = None
     model: str
     generated_at: str
     static_mode: bool = False
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Routes
-# ─────────────────────────────────────────────────────────────────────────────
+_THEME_LINE = re.compile(r"^\s*THEME\s*:\s*([a-z'-]+)\s*$", re.IGNORECASE | re.MULTILINE)
+_BULLET = re.compile(r"^\s*[-*•]\s+", re.MULTILINE)
+_HEADING = re.compile(r"^\s*#{1,6}\s*", re.MULTILINE)
+
+
+def _clean(text: str) -> str:
+    """Retire les marques qui trahissent une sortie de modele."""
+    text = text.replace("—", ", ").replace("–", ", ")
+    text = text.replace(" · ", ", ").replace("·", ",")
+    # Le modele produit parfois un trait d'union insecable, invisible a l'oeil
+    # mais qui casse la recherche et la cesure : on le ramene au tiret simple.
+    text = text.replace("‑", "-").replace(" ", " ")
+    text = _BULLET.sub("", text)
+    text = _HEADING.sub("", text)
+    text = text.replace("**", "").replace("*", "")
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+
+def _extract(text: str):
+    theme = None
+    m = _THEME_LINE.search(text)
+    if m and m.group(1).lower() in THEMES:
+        theme = m.group(1).lower()
+    body = _THEME_LINE.sub("", text)
+    return _clean(body), theme
+
+
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "imahay-backend", "llm_configured": is_configured()}
+
+
+@app.get("/themes")
+def themes():
+    return {"themes": THEME_KEYS, "labels": THEMES}
 
 
 @app.post("/process", response_model=GenerateResponse)
@@ -103,50 +143,50 @@ async def process(req: GenerateRequest) -> GenerateResponse:
     now_iso = datetime.now(timezone.utc).isoformat()
 
     if not is_configured():
-        return GenerateResponse(
-            reply=_build_static_reply(req.lang),
-            model="static-mock",
-            generated_at=now_iso,
-            static_mode=True,
-        )
+        reply, theme = _static_reply(req.lang)
+        return GenerateResponse(reply=reply, theme=theme, model="static", generated_at=now_iso, static_mode=True)
 
     try:
         text, model = await chat(
             [
-                {"role": "system", "content": SYSTEM_PROMPT_FR if req.lang == "fr" else SYSTEM_PROMPT_EN},
+                {"role": "system", "content": PROMPTS.get(req.lang, SYSTEM_MG)},
                 {"role": "user", "content": question},
             ],
-            max_tokens=600,
+            max_tokens=700,
         )
     except Exception:
-        return GenerateResponse(
-            reply=_build_static_reply(req.lang),
-            model="static-mock",
-            generated_at=now_iso,
-            static_mode=True,
-        )
+        reply, theme = _static_reply(req.lang)
+        return GenerateResponse(reply=reply, theme=theme, model="static", generated_at=now_iso, static_mode=True)
 
-    return GenerateResponse(reply=text, model=model, generated_at=now_iso)
+    reply, theme = _extract(text)
+    return GenerateResponse(reply=reply, theme=theme, model=model, generated_at=now_iso)
 
 
-def _build_static_reply(lang: str) -> str:
+def _static_reply(lang: str):
+    """Repli sans modele. Le proverbe reste affiche par l'interface."""
     if lang == "en":
         return (
-            "I hear you, my friend. Whatever weighs on your heart this moment, you carry it not alone.\n\n"
-            "The wisdom of our ancestors reminds us that every storm passes, and every silence has its season. "
-            "The strength is not in never falling, but in standing up again with patience and the support of your people.\n\n"
-            "\"Tsy misy hazo tsy mihofahofa rehefa misy rivotra\" · No tree stays still when the wind blows. "
-            "Even the strongest are tested; this is the natural order.\n\n"
-            "Take a moment, breathe slowly, and speak with one person you trust today. The first step is enough.\n\n"
-            "iMahay"
+            "I hear you. Whatever weighs on you today, you are not carrying it alone.\n\n"
+            "Malagasy wisdom rarely answers with a rule. It answers with a question you can hold: "
+            "who around you already knows this situation, and what would they have done in your place.\n\n"
+            "Name one person you trust, and speak to them today. That first step is enough.\n\n"
+            "iMahay",
+            "fihavanana",
+        )
+    if lang == "fr":
+        return (
+            "Je t'ecoute. Quoi que tu portes aujourd'hui, tu ne le portes pas seul.\n\n"
+            "La sagesse malgache repond rarement par une regle. Elle repond par une question que l'on peut tenir : "
+            "qui, autour de toi, connait deja cette situation, et qu'aurait fait cette personne a ta place.\n\n"
+            "Nomme une personne de confiance, et parle-lui aujourd'hui. Ce premier pas suffit.\n\n"
+            "iMahay",
+            "fihavanana",
         )
     return (
-        "Mihaino anao aho, ry namana. Na inona na inona mavesatra eo am-ponao androany, tsy irery ianao.\n\n"
-        "La sagesse de nos razana nous rappelle que chaque tempête passe, et que chaque silence a sa saison. "
-        "La force n'est pas de ne jamais tomber, mais de se relever avec patience et le soutien des siens.\n\n"
-        "« Tsy misy hazo tsy mihofahofa rehefa misy rivotra » · Aucun arbre ne reste immobile quand le vent souffle. "
-        "Même les plus forts sont éprouvés ; c'est l'ordre naturel des choses.\n\n"
-        "Prends un instant, respire doucement, et parle aujourd'hui à une personne de confiance · un membre de ta famille, "
-        "un ami sincère. Le premier pas suffit.\n\n"
-        "iMahay"
+        "Reko ianao. Na inona na inona mavesatra aminao androany, tsy irery ianao mitondra izany.\n\n"
+        "Tsy matetika mamaly amin'ny fitsipika ny fahendrena malagasy. Mamaly amin'ny fanontaniana azo tazonina izy : "
+        "iza no efa mahafantatra izao toe-javatra izao eo akaikinao, ary inona no ho nataony raha teo amin'ny toeranao.\n\n"
+        "Lazao ny anaran'ny olona iray itokianao, dia resaho izy androany. Ampy izay dingana voalohany izay.\n\n"
+        "iMahay",
+        "fihavanana",
     )
