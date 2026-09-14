@@ -1,9 +1,9 @@
 {
-  "note": "Liste fermee. iMahay ne peut citer que ces proverbes et n'en ecrit jamais de nouveau. Chaque entree porte le recueil imprime d'ou elle vient, verifiee via le Rakibolana (motmalgache.org) qui reproduit les numeros d'origine.",
+  "note": "Liste fermée. iMahay ne peut citer que ces proverbes et n'en écrit jamais de nouveau. Chaque entrée porte le recueil imprimé d'où elle vient, vérifiée via le Rakibolana (motmalgache.org) qui reproduit les numéros d'origine.",
   "themes": {
     "fihavanana": {
       "mg": "Fihavanana",
-      "fr": "Parente et entraide",
+      "fr": "Parenté et entraide",
       "en": "Kinship and solidarity",
       "ask_mg": "Misy fifanolanana amin'ny havako, ahoana no tokony hataoko ?",
       "ask_fr": "Il y a un conflit dans ma famille, comment devrais-je m'y prendre ?",
@@ -15,8 +15,8 @@
       ],
       "prompts_fr": [
         "Il y a un conflit dans ma famille, comment devrais-je m'y prendre ?",
-        "On ne se parle plus depuis le partage de l'heritage.",
-        "Un voisin me demande de l'aide sans arret, je n'ose pas refuser."
+        "On ne se parle plus depuis le partage de l'héritage.",
+        "Un voisin me demande de l'aide sans arrêt, je n'ose pas refuser."
       ],
       "prompts_en": [
         "There is a conflict in my family, how should I handle it?",
@@ -26,10 +26,10 @@
     },
     "fahendrena": {
       "mg": "Fahendrena",
-      "fr": "Sagesse et decision",
+      "fr": "Sagesse et décision",
       "en": "Wisdom and decision",
       "ask_mg": "Sarotra amiko ny manapa-kevitra, inona no tokony hodinihiko ?",
-      "ask_fr": "J'ai une decision difficile a prendre, que devrais-je peser ?",
+      "ask_fr": "J'ai une décision difficile à prendre, que devrais-je peser ?",
       "ask_en": "I have a hard decision to make, what should I weigh?",
       "prompts_mg": [
         "Sarotra amiko ny manapa-kevitra, inona no tokony hodinihiko ?",
@@ -37,9 +37,9 @@
         "Marobe ny torohevitra azoko, ka very hevitra aho."
       ],
       "prompts_fr": [
-        "J'ai une decision difficile a prendre, que devrais-je peser ?",
-        "Deux choix s'offrent a moi, chacun a son bon et son mauvais cote.",
-        "Je recois trop de conseils contradictoires et je ne sais plus."
+        "J'ai une décision difficile à prendre, que devrais-je peser ?",
+        "Deux choix s'offrent à moi, chacun a son bon et son mauvais côté.",
+        "Je reçois trop de conseils contradictoires et je ne sais plus."
       ],
       "prompts_en": [
         "I have a hard decision to make, what should I weigh?",
@@ -52,7 +52,7 @@
       "fr": "Conduite et droiture",
       "en": "Conduct and uprightness",
       "ask_mg": "Misy fanararaotana eo amin'ny asako, ahoana no fitondran-tena mety ?",
-      "ask_fr": "On me pousse a une chose que je crois malhonnete, comment me conduire ?",
+      "ask_fr": "On me pousse à une chose que je crois malhonnête, comment me conduire ?",
       "ask_en": "I am being pushed into something I believe is dishonest, how should I act?",
       "prompts_mg": [
         "Misy fanararaotana eo amin'ny asako, ahoana no fitondran-tena mety ?",
@@ -60,9 +60,9 @@
         "Simba ny lazako noho ny fitenenana, ahoana no hanarenana azy ?"
       ],
       "prompts_fr": [
-        "On me pousse a une chose que je crois malhonnete, comment me conduire ?",
-        "Quelqu'un m'a demande de fermer les yeux, je ne sais pas quoi repondre.",
-        "Ma reputation a ete abimee par des paroles, comment la relever ?"
+        "On me pousse à une chose que je crois malhonnête, comment me conduire ?",
+        "Quelqu'un m'a demandé de fermer les yeux, je ne sais pas quoi répondre.",
+        "Ma réputation a été abîmée par des paroles, comment la relever ?"
       ],
       "prompts_en": [
         "I am being pushed into something dishonest, how should I act?",
@@ -75,7 +75,7 @@
       "fr": "Travail et effort",
       "en": "Work and effort",
       "ask_mg": "Kivy aho amin'ny asako, tsy mahita vokatra intsony.",
-      "ask_fr": "Je me decourage dans mon travail, je ne vois plus de resultat.",
+      "ask_fr": "Je me décourage dans mon travail, je ne vois plus de résultat.",
       "ask_en": "I am losing heart at work, I no longer see any result.",
       "prompts_mg": [
         "Kivy aho amin'ny asako, tsy mahita vokatra intsony.",
@@ -83,8 +83,8 @@
         "Be loatra ny asa ataoko, tsy misy fotoana ho an'ny fianakaviana."
       ],
       "prompts_fr": [
-        "Je me decourage dans mon travail, je ne vois plus de resultat.",
-        "Je cherche un emploi depuis longtemps et personne ne repond.",
+        "Je me décourage dans mon travail, je ne vois plus de résultat.",
+        "Je cherche un emploi depuis longtemps et personne ne répond.",
         "Je travaille trop, il ne reste plus de temps pour ma famille."
       ],
       "prompts_en": [
@@ -98,7 +98,7 @@
       "fr": "Apprendre et transmettre",
       "en": "Learning and passing on",
       "ask_mg": "Tiako ho hain'ny zanako ny fomba malagasy, ahoana no ampitako azy ?",
-      "ask_fr": "Je veux transmettre les fomba a mes enfants, comment m'y prendre ?",
+      "ask_fr": "Je veux transmettre les fomba à mes enfants, comment m'y prendre ?",
       "ask_en": "I want to pass the fomba on to my children, how do I go about it?",
       "prompts_mg": [
         "Tiako ho hain'ny zanako ny fomba malagasy, ahoana no ampitako azy ?",
@@ -106,9 +106,9 @@
         "Te hianatra kabary aho, aiza no atombohana ?"
       ],
       "prompts_fr": [
-        "Je veux transmettre les fomba a mes enfants, comment m'y prendre ?",
-        "Mon aine ne veut plus m'ecouter.",
-        "Je veux apprendre le kabary, par ou commencer ?"
+        "Je veux transmettre les fomba à mes enfants, comment m'y prendre ?",
+        "Mon aîné ne veut plus m'écouter.",
+        "Je veux apprendre le kabary, par où commencer ?"
       ],
       "prompts_en": [
         "I want to pass the fomba on to my children, how do I go about it?",
@@ -121,7 +121,7 @@
       "fr": "Couple et mariage",
       "en": "Couple and marriage",
       "ask_mg": "Hangataka vady aho, inona no tokony homaniko ?",
-      "ask_fr": "Je vais faire une demande en mariage, que dois-je preparer ?",
+      "ask_fr": "Je vais faire une demande en mariage, que dois-je préparer ?",
       "ask_en": "I am going to ask for a hand in marriage, what should I prepare?",
       "prompts_mg": [
         "Hangataka vady aho, inona no tokony homaniko ?",
@@ -129,9 +129,9 @@
         "Tsy mankasitraka ahy ny rafozako, mavesatra izany."
       ],
       "prompts_fr": [
-        "Je vais faire une demande en mariage, que dois-je preparer ?",
-        "Avec mon conjoint, nous nous disputons souvent a cause de l'argent.",
-        "Ma belle-famille ne m'accepte pas, c'est lourd a porter."
+        "Je vais faire une demande en mariage, que dois-je préparer ?",
+        "Avec mon conjoint, nous nous disputons souvent à cause de l'argent.",
+        "Ma belle-famille ne m'accepte pas, c'est lourd à porter."
       ],
       "prompts_en": [
         "I am going to ask for a hand in marriage, what should I prepare?",
@@ -141,7 +141,7 @@
     },
     "fahoriana": {
       "mg": "Fahoriana",
-      "fr": "Epreuve et deuil",
+      "fr": "Épreuve et deuil",
       "en": "Grief and hardship",
       "ask_mg": "Nodimandry ny havako, mavesatra loatra ny fo.",
       "ask_fr": "J'ai perdu un proche, le coeur est trop lourd.",
@@ -153,8 +153,8 @@
       ],
       "prompts_fr": [
         "J'ai perdu un proche, le coeur est trop lourd.",
-        "Je suis malade depuis longtemps et mon esperance s'use.",
-        "La personne en qui j'avais confiance m'a laisse tomber."
+        "Je suis malade depuis longtemps et mon espérance s'use.",
+        "La personne en qui j'avais confiance m'a laissé tomber."
       ],
       "prompts_en": [
         "I lost someone close, my heart is too heavy.",
@@ -167,7 +167,7 @@
       "fr": "Coutumes et rites",
       "en": "Customs and rites",
       "ask_mg": "Hanatrika famadihana aho, ahoana no fitondrako tena ?",
-      "ask_fr": "Je vais assister a un famadihana, comment dois-je me tenir ?",
+      "ask_fr": "Je vais assister à un famadihana, comment dois-je me tenir ?",
       "ask_en": "I am attending a famadihana, how should I conduct myself?",
       "fallback": "fihavanana",
       "prompts_mg": [
@@ -176,9 +176,9 @@
         "Inona no fomba tokony harahina rehefa misy fisaonana ao an-tanana ?"
       ],
       "prompts_fr": [
-        "Je vais assister a un famadihana, comment dois-je me tenir ?",
+        "Je vais assister à un famadihana, comment dois-je me tenir ?",
         "Je ne sais pas quoi dire en arrivant dans une maison en deuil.",
-        "Quelles regles suivre quand un deces frappe le quartier ?"
+        "Quelles règles suivre quand un décès frappe le quartier ?"
       ],
       "prompts_en": [
         "I am attending a famadihana, how should I conduct myself?",
@@ -191,7 +191,7 @@
     {
       "label": "Houlder, Ohabolana ou proverbes malgaches",
       "url": "https://motmalgache.org/bins/ohabolana/ifanakonana",
-      "note": "Recueil de reference, indexe mot par mot"
+      "note": "Recueil de référence, indexé mot par mot"
     },
     {
       "label": "Cousins et Parrett, Ny ohabolan'ny Ntaolo",
@@ -199,24 +199,24 @@
       "note": "Collection ancienne des proverbes des anciens"
     },
     {
-      "label": "de Veyrieres, Le livre de la sagesse malgache",
+      "label": "de Veyrières, Le livre de la sagesse malgache",
       "url": "https://motmalgache.org/bins/ohabolana/hitsikitsika",
-      "note": "Proverbes numerotes, avec traduction francaise"
+      "note": "Proverbes numérotés, avec traduction française"
     },
     {
       "label": "Nicol, Proverbes et locutions malgaches",
       "url": "https://motmalgache.org/bins/ohabolana/tody",
-      "note": "Edition de 1935"
+      "note": "Édition de 1935"
     },
     {
       "label": "Rinarasoa, Ohabolana malagasy",
       "url": "https://motmalgache.org/bins/ohabolana/tseroka",
-      "note": "Edition de 1974"
+      "note": "Édition de 1974"
     },
     {
       "label": "Rakibolana malagasy, Rajemisa-Raolison",
       "url": "https://motmalgache.org/bins/ohabolana/ala",
-      "note": "Dictionnaire encyclopedique malgache"
+      "note": "Dictionnaire encyclopédique malgache"
     }
   ],
   "items": [
@@ -227,7 +227,7 @@
       "fr": "Un seul doigt n'attrape pas un pou.",
       "en": "One finger alone cannot catch a louse.",
       "meaning_mg": "Tsy vitan'ny irery ny asa, ny firaisankina no hery.",
-      "meaning_fr": "Seul, on ne vient pas a bout d'une tache. C'est l'image la plus classique de l'entraide malgache.",
+      "meaning_fr": "Seul, on ne vient pas à bout d'une tâche. C'est l'image la plus classique de l'entraide malgache.",
       "meaning_en": "Alone you finish nothing. The oldest Malagasy image of mutual help.",
       "source": "Houlder 238, Cousins et Parrett 3124",
       "source_url": "https://motmalgache.org/bins/ohabolana/tokana",
@@ -237,10 +237,10 @@
       "id": "oh02",
       "theme": "fihavanana",
       "mg": "Ny hazo tokana tsy mba ala.",
-      "fr": "Un seul arbre ne fait pas la foret.",
+      "fr": "Un seul arbre ne fait pas la forêt.",
       "en": "A single tree is not a forest.",
       "meaning_mg": "Tsy misy lanjany ny olona mitokana, ny vondrona no maharitra.",
-      "meaning_fr": "Un individu isole ne pese rien. C'est le groupe qui fait la force et la duree.",
+      "meaning_fr": "Un individu isolé ne pèse rien. C'est le groupe qui fait la force et la durée.",
       "meaning_en": "One person alone weighs nothing. The group carries both strength and time.",
       "source": "Houlder 237, Cousins et Parrett 2260",
       "source_url": "https://motmalgache.org/bins/ohabolana/ala",
@@ -250,12 +250,12 @@
       "id": "oh03",
       "theme": "fihavanana",
       "mg": "Aleo very tsikalakalam-bola toy izay very tsikalakalam-pihavanana.",
-      "fr": "Mieux vaut perdre les petits profits de l'argent que les petites attentions qui entretiennent la parente.",
+      "fr": "Mieux vaut perdre les petits profits de l'argent que les petites attentions qui entretiennent la parenté.",
       "en": "Better to lose a little money than to lose a little of the kinship that binds.",
       "meaning_mg": "Raha mifanandrina ny vola sy ny fihavanana, ny vola no afoy.",
       "meaning_fr": "Quand l'argent et le lien humain s'opposent, on sacrifie l'argent.",
       "meaning_en": "When money and the human bond collide, the money is what you give up.",
-      "source": "de Veyrieres 4103",
+      "source": "de Veyrières 4103",
       "source_url": "https://motmalgache.org/bins/ohabolana/tsikalakala",
       "confidence": "attested"
     },
@@ -263,12 +263,12 @@
       "id": "oh04",
       "theme": "fahendrena",
       "mg": "Hitsikitsika tsy mandihy foana fa ao raha.",
-      "fr": "La crecerelle ne s'agite pas en vain, c'est qu'il y a quelque chose.",
+      "fr": "La crécerelle ne s'agite pas en vain, c'est qu'il y a quelque chose.",
       "en": "The kestrel does not hover for nothing, something is there.",
       "meaning_mg": "Misy antony foana ny fihetsika, vakio ny fikasana alohan'ny hitsara.",
-      "meaning_fr": "Personne ne se demene sans raison. Lis l'intention avant de juger.",
+      "meaning_fr": "Personne ne se démène sans raison. Lis l'intention avant de juger.",
       "meaning_en": "Nobody stirs without a reason. Read the intent before you judge.",
-      "source": "de Veyrieres 637",
+      "source": "de Veyrières 637",
       "source_url": "https://motmalgache.org/bins/ohabolana/hitsikitsika",
       "confidence": "attested"
     },
@@ -276,12 +276,12 @@
       "id": "oh05",
       "theme": "fahendrena",
       "mg": "Ny teny toy ny atody, ka raha foy manana elatra.",
-      "fr": "Les paroles sont comme des oeufs, une fois ecloses elles ont des ailes.",
+      "fr": "Les paroles sont comme des oeufs, une fois écloses elles ont des ailes.",
       "en": "Words are like eggs, once hatched they have wings.",
       "meaning_mg": "Tsy azo averina intsony ny teny efa nivoaka, lanjao aloha vao lazaina.",
-      "meaning_fr": "Une parole lachee ne se rattrape plus, elle vole partout. Il faut la peser avant.",
+      "meaning_fr": "Une parole lâchée ne se rattrape plus, elle vole partout. Il faut la peser avant.",
       "meaning_en": "A word let go is never taken back, it flies everywhere. Weigh it first.",
-      "source": "de Veyrieres 4794",
+      "source": "de Veyrières 4794",
       "source_url": "https://motmalgache.org/bins/ohabolana/atody",
       "confidence": "attested"
     },
@@ -292,9 +292,9 @@
       "fr": "C'est l'avis du grand nombre qui fait le royaume.",
       "en": "It is the counsel of the many that makes the kingdom.",
       "meaning_mg": "Tsy maharitra ny fanapahan-kevitra raha tsy niaraha-nodinihina.",
-      "meaning_fr": "Une decision ne tient que si elle a ete deliberee collectivement.",
+      "meaning_fr": "Une décision ne tient que si elle a été délibérée collectivement.",
       "meaning_en": "A decision only holds when it was deliberated together.",
-      "source": "de Veyrieres 301",
+      "source": "de Veyrières 301",
       "source_url": "https://motmalgache.org/bins/ohabolana/maro",
       "confidence": "attested"
     },
@@ -305,9 +305,9 @@
       "fr": "L'avis du grand nombre porte loin.",
       "en": "The counsel of the many reaches far.",
       "meaning_mg": "Mahita lavitra kokoa noho ny an'ny tokana ny fiaraha-misaina.",
-      "meaning_fr": "La reflexion collective voit plus loin que celle d'un seul. La forme vezo est au dictionnaire, la forme merina est d'usage courant.",
+      "meaning_fr": "La réflexion collective voit plus loin que celle d'un seul. La forme vezo est au dictionnaire, la forme merina est d'usage courant.",
       "meaning_en": "Thinking together sees further than thinking alone. The Vezo form is in the dictionary, the Merina form is in common use.",
-      "source": "Dictionnaire vezo-francais, forme merina d'usage courant",
+      "source": "Dictionnaire vezo-français, forme merina d'usage courant",
       "source_url": "https://motmalgache.org/bins/ohabolana/maro",
       "confidence": "widely-cited"
     },
@@ -315,10 +315,10 @@
       "id": "oh08",
       "theme": "fitondrantena",
       "mg": "Fanahy no olona.",
-      "fr": "L'ame, c'est l'homme.",
+      "fr": "L'âme, c'est l'homme.",
       "en": "The spirit is what makes a person.",
       "meaning_mg": "Tsy ny laharana na ny fananana no mampiavaka olona fa ny toetrany.",
-      "meaning_fr": "Ce qui fait la valeur d'une personne n'est ni son rang ni ses biens, mais son caractere. Forme d'origine de l'actuel Ny fanahy no maha-olona.",
+      "meaning_fr": "Ce qui fait la valeur d'une personne n'est ni son rang ni ses biens, mais son caractère. Forme d'origine de l'actuel Ny fanahy no maha-olona.",
       "meaning_en": "A person's worth is neither rank nor property but character. The original form of today's Ny fanahy no maha-olona.",
       "source": "Cousins et Parrett 898, Nicol 320",
       "source_url": "https://motmalgache.org/bins/ohabolana/fanahy",
@@ -328,12 +328,12 @@
       "id": "oh09",
       "theme": "fitondrantena",
       "mg": "Ny soa atao levenam-bola.",
-      "fr": "Le bien que l'on fait est un tresor mis en reserve.",
+      "fr": "Le bien que l'on fait est un trésor mis en réserve.",
       "en": "The good you do is treasure put by.",
       "meaning_mg": "Tsy very mihitsy ny soa natao, miverina amin'ny tena ihany indray andro any.",
-      "meaning_fr": "La bienfaisance n'est jamais perdue, elle revient un jour a son auteur.",
+      "meaning_fr": "La bienfaisance n'est jamais perdue, elle revient un jour à son auteur.",
       "meaning_en": "Kindness is never lost, one day it comes back to the one who gave it.",
-      "source": "de Veyrieres 2969, Nicol 439",
+      "source": "de Veyrières 2969, Nicol 439",
       "source_url": "https://motmalgache.org/bins/ohabolana/soa",
       "confidence": "attested"
     },
@@ -344,7 +344,7 @@
       "fr": "Il n'existe pas de vengeance, c'est ce que l'on fait qui revient sur soi.",
       "en": "There is no revenge, what you do is what comes back.",
       "meaning_mg": "Tsy ilaina ny mamaly ratsy, miverina ho azy amin'ny mpanao ny ataony.",
-      "meaning_fr": "Nul besoin de rendre le mal, les actes retombent d'eux-memes sur celui qui les commet.",
+      "meaning_fr": "Nul besoin de rendre le mal, les actes retombent d'eux-mêmes sur celui qui les commet.",
       "meaning_en": "No need to return harm, acts fall back on their author by themselves.",
       "source": "Nicol 479, Houlder dans sa forme longue",
       "source_url": "https://motmalgache.org/bins/ohabolana/tody",
@@ -354,10 +354,10 @@
       "id": "oh11",
       "theme": "fitondrantena",
       "mg": "Manasa lamba be tseroka, ka na madio aza mangarahara.",
-      "fr": "Laver un tissu tres encrasse, meme redevenu propre il reste use jusqu'a la trame.",
+      "fr": "Laver un tissu très encrassé, même redevenu propre il reste usé jusqu'à la trame.",
       "en": "Washing a filthy cloth, even clean again it stays worn through.",
       "meaning_mg": "Misy hadisoana voavaha nefa mbola mamela dian-tsoratra eo amin'ny laza.",
-      "meaning_fr": "Certaines fautes se reparent mais laissent une marque. La reputation abimee ne redevient jamais tout a fait intacte.",
+      "meaning_fr": "Certaines fautes se réparent mais laissent une marque. La réputation abîmée ne redevient jamais tout à fait intacte.",
       "meaning_en": "Some faults can be repaired yet leave a mark. A damaged name never returns fully intact.",
       "source": "Houlder 144, Rinarasoa 2039, Cousins et Parrett 1571",
       "source_url": "https://motmalgache.org/bins/ohabolana/tseroka",
@@ -367,10 +367,10 @@
       "id": "oh12",
       "theme": "asa",
       "mg": "Asa vadi-drano, ka tsy vita tsy ifanakonana.",
-      "fr": "Travail de riziere, il ne s'acheve que par l'entraide.",
+      "fr": "Travail de rizière, il ne s'achève que par l'entraide.",
       "en": "Paddy work is finished only by helping one another.",
       "meaning_mg": "Mihoatra ny herin'ny tokana ny asa lehibe, ny fiaraha-miasa no mahavita azy.",
-      "meaning_fr": "Les grands ouvrages depassent les forces d'un seul, seule la cooperation les mene a terme.",
+      "meaning_fr": "Les grands ouvrages dépassent les forces d'un seul, seule la coopération les mène à terme.",
       "meaning_en": "Big works exceed one person's strength, only cooperation carries them through.",
       "source": "Houlder",
       "source_url": "https://motmalgache.org/bins/ohabolana/ifanakonana",
@@ -380,10 +380,10 @@
       "id": "oh13",
       "theme": "asa",
       "mg": "Ny raharaha ifanakonana mora efa, izay iaraha-manao, vita haingana.",
-      "fr": "L'affaire que l'on mene ensemble s'acheve aisement, ce que l'on fait a plusieurs se termine vite.",
+      "fr": "L'affaire que l'on mène ensemble s'achève aisément, ce que l'on fait à plusieurs se termine vite.",
       "en": "Work led together finishes easily, what is done by many is done fast.",
       "meaning_mg": "Mampihena ny enta-mavesatra ny fizarana azy, aleo mandamina noho ny miari-tena irery.",
-      "meaning_fr": "Partager la charge accelere le travail. Organiser l'effort commun vaut mieux que s'acharner seul.",
+      "meaning_fr": "Partager la charge accélère le travail. Organiser l'effort commun vaut mieux que s'acharner seul.",
       "meaning_en": "Sharing the load speeds the work. Organising the common effort beats struggling alone.",
       "source": "Rinarasoa",
       "source_url": "https://motmalgache.org/bins/ohabolana/ifanakonana",
@@ -393,10 +393,10 @@
       "id": "oh14",
       "theme": "asa",
       "mg": "Miadam-pandeha ny fahalainana, ka mora tratry ny fahoriana.",
-      "fr": "La paresse avance si lentement que la misere la rattrape vite.",
+      "fr": "La paresse avance si lentement que la misère la rattrape vite.",
       "en": "Idleness walks so slowly that hardship soon overtakes it.",
       "meaning_mg": "Ny fanemorana ny ezaka dia fanomezana lalana ny fahantrana.",
-      "meaning_fr": "Remettre l'effort a plus tard, c'est laisser la pauvrete prendre de l'avance.",
+      "meaning_fr": "Remettre l'effort à plus tard, c'est laisser la pauvreté prendre de l'avance.",
       "meaning_en": "Putting the effort off is letting poverty get ahead of you.",
       "source": "Nicol 490",
       "source_url": "https://motmalgache.org/bins/ohabolana/fahoriana",
@@ -406,12 +406,12 @@
       "id": "oh15",
       "theme": "fianarana",
       "mg": "Ny hazo no vanon-ko lakana : ny tany naniriany no tsara.",
-      "fr": "Si l'arbre est bon a faire une pirogue, c'est que la terre ou il a pousse etait bonne.",
+      "fr": "Si l'arbre est bon à faire une pirogue, c'est que la terre où il a poussé était bonne.",
       "en": "If the tree makes a good canoe, the soil it grew in was good.",
       "meaning_mg": "Avy amin'ny tontolo nanabe azy ny hatsaran'ny olona : fianakaviana, fanabeazana, fampitana.",
-      "meaning_fr": "La qualite d'une personne vient du milieu qui l'a formee : famille, education, transmission.",
+      "meaning_fr": "La qualité d'une personne vient du milieu qui l'a formée : famille, éducation, transmission.",
       "meaning_en": "A person's quality comes from what raised them: family, upbringing, transmission.",
-      "source": "Rakibolana malagasy, de Veyrieres 2774 pour la variante",
+      "source": "Rakibolana malagasy, de Veyrières 2774 pour la variante",
       "source_url": "https://motmalgache.org/bins/ohabolana/ala",
       "confidence": "attested"
     },
@@ -422,7 +422,7 @@
       "fr": "Le conseil est un voyageur, si on l'aime il passe la nuit chez vous, si on ne l'aime pas il s'en retourne.",
       "en": "Counsel is a traveller, welcomed it stays the night, unwelcomed it turns back.",
       "meaning_mg": "Tsy azo terena handray anatra ny olona, mijanona any amin'izay mandray azy ihany izy.",
-      "meaning_fr": "On ne force personne a recevoir un conseil, il ne reste que chez qui veut bien l'accueillir.",
+      "meaning_fr": "On ne force personne à recevoir un conseil, il ne reste que chez qui veut bien l'accueillir.",
       "meaning_en": "Nobody can be forced to take advice, it stays only where it is welcomed.",
       "source": "Houlder",
       "source_url": "https://motmalgache.org/bins/ohabolana/anatra",
@@ -432,12 +432,12 @@
       "id": "oh17",
       "theme": "fanambadiana",
       "mg": "Ataovy toy ny lamban'akoho ny fanambadiana : faty no isarahana.",
-      "fr": "Faites du mariage comme du plumage de la poule, on ne s'en separe qu'a la mort.",
+      "fr": "Faites du mariage comme du plumage de la poule, on ne s'en sépare qu'à la mort.",
       "en": "Make marriage like a hen's plumage, only death parts you from it.",
       "meaning_mg": "Fanekena tsy tokony horavan'inona na inona afa-tsy ny fahafatesana ny fanambadiana.",
-      "meaning_fr": "Le mariage est un engagement que rien, hormis la mort, ne doit defaire.",
+      "meaning_fr": "Le mariage est un engagement que rien, hormis la mort, ne doit défaire.",
       "meaning_en": "Marriage is a commitment nothing but death should undo.",
-      "source": "de Veyrieres 1359",
+      "source": "de Veyrières 1359",
       "source_url": "https://motmalgache.org/bins/ohabolana/akoho",
       "confidence": "attested"
     },
@@ -445,12 +445,12 @@
       "id": "oh18",
       "theme": "fanambadiana",
       "mg": "Vady mifankahita tenda.",
-      "fr": "Epoux qui se voient jusqu'au fond de la gorge.",
+      "fr": "Époux qui se voient jusqu'au fond de la gorge.",
       "en": "Spouses who see each other down to the throat.",
       "meaning_mg": "Tsy misy afenina eo amin'ny mpivady, ny fangaraharana no fototry ny tokantrano.",
       "meaning_fr": "Entre mari et femme rien ne se cache. La transparence totale est la condition du couple.",
       "meaning_en": "Between husband and wife nothing is hidden. Full transparency is the condition of the couple.",
-      "source": "de Veyrieres 1352",
+      "source": "de Veyrières 1352",
       "source_url": "https://motmalgache.org/bins/ohabolana/vady",
       "confidence": "attested"
     },
@@ -458,12 +458,12 @@
       "id": "oh19",
       "theme": "fanambadiana",
       "mg": "Ny vady no ray aman-dreny.",
-      "fr": "Le conjoint tient lieu de pere et de mere.",
+      "fr": "Le conjoint tient lieu de père et de mère.",
       "en": "Your spouse stands in the place of father and mother.",
       "meaning_mg": "Rehefa manambady, ny vady no fiankinana sy fiarovana toy ny ray aman-dreny.",
-      "meaning_fr": "Une fois marie, c'est aupres de son conjoint que l'on trouve appui et protection, comme aupres des parents.",
+      "meaning_fr": "Une fois marié, c'est auprès de son conjoint que l'on trouve appui et protection, comme auprès des parents.",
       "meaning_en": "Once married, support and shelter come from your spouse, as they did from your parents.",
-      "source": "de Veyrieres 1227",
+      "source": "de Veyrières 1227",
       "source_url": "https://motmalgache.org/bins/ohabolana/vady",
       "confidence": "attested"
     },
@@ -474,9 +474,9 @@
       "fr": "C'est le malheur qui rend l'homme sage.",
       "en": "It is hardship that makes a person wise.",
       "meaning_mg": "Mampianatra izay tsy ampianarin'ny fiadanana ny fizahan-toetra.",
-      "meaning_fr": "L'epreuve enseigne ce que le confort n'apprend pas, elle est une ecole.",
+      "meaning_fr": "L'épreuve enseigne ce que le confort n'apprend pas, elle est une école.",
       "meaning_en": "Trial teaches what comfort never does, it is a school.",
-      "source": "de Veyrieres 2644",
+      "source": "de Veyrières 2644",
       "source_url": "https://motmalgache.org/bins/ohabolana/fahoriana",
       "confidence": "attested"
     },
@@ -484,10 +484,10 @@
       "id": "oh21",
       "theme": "fahoriana",
       "mg": "Ny fahoriana mahazaka maniraka.",
-      "fr": "La misere est un maitre qui commande.",
+      "fr": "La misère est un maître qui commande.",
       "en": "Hardship is a master that gives orders.",
       "meaning_mg": "Manery hihetsika ny fahantrana, tsy avelany hipetraka fotsiny ny olona.",
-      "meaning_fr": "Le denuement force a agir et a se mettre en mouvement, il ne laisse pas le choix de l'inaction.",
+      "meaning_fr": "Le dénuement force à agir et à se mettre en mouvement, il ne laisse pas le choix de l'inaction.",
       "meaning_en": "Want forces you to move, it leaves no room for standing still.",
       "source": "Houlder 1469",
       "source_url": "https://motmalgache.org/bins/ohabolana/fahoriana",

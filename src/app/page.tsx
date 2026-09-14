@@ -124,44 +124,44 @@ const T: Record<Lang, Record<string, string>> = {
     navOhabolana: "Proverbes",
     navCulture: "Culture",
     navTruth: "Ce qu'il fait",
-    heroTitle: "La sagesse malgache repond a ta question.",
+    heroTitle: "La sagesse malgache répond à ta question.",
     heroLead:
-      "Pose ce que tu portes, en malgache ou en francais. iMahay ecoute, repond avec respect, puis te donne le proverbe exact qui correspond et la video qui l'explique.",
+      "Pose ce que tu portes, en malgache ou en français. iMahay écoute, répond avec respect, puis te donne le proverbe exact qui correspond et la vidéo qui l'explique.",
     heroCta: "Pose ta question",
-    heroCta2: "Voir les videos",
+    heroCta2: "Voir les vidéos",
     ohOfDay: "Proverbe du jour",
     aloaloTitle: "L'aloalo",
     aloaloLead:
-      "Le bois est nu, mais on y empile des formes : tete de zebu et cornes, losange, disque, carre, chevrons. Chaque poteau raconte une histoire construite avec ces formes.",
+      "Le bois est nu, mais on y empile des formes : tête de zébu et cornes, losange, disque, carré, chevrons. Chaque poteau raconte une histoire construite avec ces formes.",
     talkTitle: "Parler avec iMahay",
-    talkLead: "Aucun compte, aucun nom demande. La conversation n'est pas conservee quand la page se ferme.",
+    talkLead: "Aucun compte, aucun nom demandé. La conversation n'est pas conservée quand la page se ferme.",
     chatName: "iMahay",
     chatStatus: "Gratuit, ouvert jour et nuit",
-    placeholder: "Ecris ici ce que tu portes aujourd'hui.",
+    placeholder: "Écris ici ce que tu portes aujourd'hui.",
     send: "Envoyer",
-    thinking: "Reflechit",
+    thinking: "Réfléchit",
     welcome:
       "Bienvenue. Dis avec tes mots ce que tu portes aujourd'hui, ou touche la situation la plus proche ci-dessous.",
     pickTheme: "Choisis la situation",
     pickPrompt: "Ou prends l'une de ces questions",
     attach: "Le proverbe qui correspond",
     example: "Exemple",
-    attachVideo: "A ecouter",
-    ohTitle: "Les proverbes verifies",
+    attachVideo: "À écouter",
+    ohTitle: "Les proverbes vérifiés",
     ohLead:
-      "iMahay n'ecrit jamais un ohabolana. Il ne peut citer que cette liste, et chaque entree porte sa source.",
-    cultureTitle: "Les voix a ecouter",
+      "iMahay n'écrit jamais un ohabolana. Il ne peut citer que cette liste, et chaque entrée porte sa source.",
+    cultureTitle: "Les voix à écouter",
     cultureLead:
-      "Kabary, proverbes expliques, fomba aman-panao, hira gasy. La video ne se charge qu'apres un clic sur la vignette.",
+      "Kabary, proverbes expliqués, fomba aman-panao, hira gasy. La vidéo ne se charge qu'après un clic sur la vignette.",
     filterAll: "Tout",
     truthTitle: "Ce qu'iMahay fait, et ce qu'il ne fait pas",
     truthDo: "Ce qu'il fait",
     truthDont: "Ce qu'il ne fait pas",
     srcTitle: "Les sources",
-    srcLead: "Les proverbes viennent de ces recueils. Les videos restent la propriete de leurs auteurs.",
+    srcLead: "Les proverbes viennent de ces recueils. Les vidéos restent la propriété de leurs auteurs.",
     footNote:
-      "iMahay n'est ni medecin, ni avocat, ni conseiller financier. En cas de danger, appelle ta famille ou le fokontany.",
-    free: "Gratuit, sans nom demande",
+      "iMahay n'est ni médecin, ni avocat, ni conseiller financier. En cas de danger, appelle ta famille ou le fokontany.",
+    free: "Gratuit, sans nom demandé",
   },
   en: {
     navTalk: "Talk",
@@ -217,8 +217,8 @@ const DOES: Record<Lang, string[]> = {
     "Manoro dingana tsotra azo atao androany.",
   ],
   fr: [
-    "Ecoute ce que tu portes, en malgache, en francais ou en anglais.",
-    "Designe un proverbe exact, pris dans un recueil identifie.",
+    "Écoute ce que tu portes, en malgache, en français ou en anglais.",
+    "Désigne un proverbe exact, pris dans un recueil identifié.",
     "Propose un kabary ou un hira gasy en rapport avec la conversation.",
     "Indique un pas simple, faisable aujourd'hui.",
   ],
@@ -238,10 +238,10 @@ const DONTS: Record<Lang, string[]> = {
     "Tsy manome toro-hevitra ara-pitsaboana, ara-dalana na ara-bola.",
   ],
   fr: [
-    "N'ecrit jamais un proverbe nouveau, n'invente pas une parole des razana.",
-    "Ne fait pas de sikidy, ne promet ni chance ni guerison.",
+    "N'écrit jamais un proverbe nouveau, n'invente pas une parole des razana.",
+    "Ne fait pas de sikidy, ne promet ni chance ni guérison.",
     "Ne demande jamais d'argent ni de sacrifice.",
-    "Ne donne aucun conseil medical, juridique ou d'investissement.",
+    "Ne donne aucun conseil médical, juridique ou d'investissement.",
   ],
   en: [
     "Never writes a new proverb, never invents words of the razana.",
@@ -710,7 +710,7 @@ export default function Home() {
             <p className="snum">
               <span>04</span>
               <b>
-                {VIDEOS.length} {lang === "mg" ? "horonan-tsary" : lang === "en" ? "videos" : "videos"}
+                {VIDEOS.length} {lang === "mg" ? "horonan-tsary" : lang === "en" ? "videos" : "vidéos"}
               </b>
             </p>
             <h2 style={{ marginBottom: 12 }}>{t.cultureTitle}</h2>
@@ -819,7 +819,7 @@ export default function Home() {
                   ? "Ny ohabolana rehetra dia voamarina tamin'ny Rakibolana, izay mamerina ny laharana ao amin'ny boky."
                   : lang === "en"
                   ? "Every proverb is checked against the Rakibolana, which reprints the number it carries in the collection."
-                  : "Chaque proverbe est verifie dans le Rakibolana, qui reprend le numero porte dans le recueil."}
+                  : "Chaque proverbe est vérifié dans le Rakibolana, qui reprend le numéro porté dans le recueil."}
               </p>
             </div>
             <div>
@@ -829,7 +829,7 @@ export default function Home() {
                   ? "Ny horonan-tsary rehetra dia an'ny mpamorona azy, ary alefa avy amin'ny YouTube."
                   : lang === "en"
                   ? "Every video belongs to its author and plays from YouTube."
-                  : "Chaque video appartient a son auteur et se lit depuis YouTube."}
+                  : "Chaque vidéo appartient à son auteur et se lit depuis YouTube."}
               </p>
             </div>
           </div>
@@ -838,7 +838,7 @@ export default function Home() {
               ? `Ohabolana ${OHABOLANA.length}, horonan-tsary ${VIDEOS.length}, nohamarinina ny ${culture.checked_at}.`
               : lang === "en"
               ? `${OHABOLANA.length} proverbs, ${VIDEOS.length} videos, links checked on ${culture.checked_at}.`
-              : `${OHABOLANA.length} proverbes, ${VIDEOS.length} videos, liens verifies le ${culture.checked_at}.`}
+              : `${OHABOLANA.length} proverbes, ${VIDEOS.length} vidéos, liens vérifiés le ${culture.checked_at}.`}
           </p>
         </div>
       </footer>

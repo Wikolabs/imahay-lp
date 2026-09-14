@@ -8,7 +8,7 @@
     },
     "ohabolana": {
       "mg": "Ohabolana",
-      "fr": "Proverbes expliques"
+      "fr": "Proverbes expliqués"
     },
     "fomba": {
       "mg": "Fomba aman-panao",
@@ -16,7 +16,7 @@
     },
     "hiragasy": {
       "mg": "Hira gasy",
-      "fr": "Opera des champs"
+      "fr": "Opéra des champs"
     }
   },
   "videos": [
@@ -29,7 +29,7 @@
         "fahendrena",
         "fomba"
       ],
-      "why": "Le dossier UNESCO du kabary : ses codes, ses formules d'ouverture, et la facon dont il se transmet."
+      "why": "Le dossier UNESCO du kabary : ses codes, ses formules d'ouverture, et la façon dont il se transmet."
     },
     {
       "id": "OKe9QCHY5Dw",
@@ -40,7 +40,7 @@
         "fianarana",
         "fahendrena"
       ],
-      "why": "Une lecon en malgache : comment on batit un kabary, et quel ton on prend devant l'assemblee."
+      "why": "Une leçon en malgache : comment on bâtit un kabary, et quel ton on prend devant l'assemblée."
     },
     {
       "id": "BUzzP-dKg9I",
@@ -73,7 +73,7 @@
         "fanambadiana",
         "fomba"
       ],
-      "why": "Un vodiondry filme de bout en bout : les paroles echangees entre les deux familles."
+      "why": "Un vodiondry filmé de bout en bout : les paroles échangées entre les deux familles."
     },
     {
       "id": "7TQz9M8cG1g",
@@ -83,7 +83,7 @@
       "themes": [
         "fanambadiana"
       ],
-      "why": "Un second vodiondry, pour entendre comment la meme ceremonie varie selon les familles."
+      "why": "Un second vodiondry, pour entendre comment la même cérémonie varie selon les familles."
     },
     {
       "id": "To69YOQEupk",
@@ -94,7 +94,7 @@
         "fanambadiana",
         "fomba"
       ],
-      "why": "Les offrandes a preparer pour une demande en mariage, nommees une par une."
+      "why": "Les offrandes à préparer pour une demande en mariage, nommées une par une."
     },
     {
       "id": "kqU_PNuwhi8",
@@ -106,7 +106,7 @@
         "fomba",
         "fihavanana"
       ],
-      "why": "Un famadihana reel : ce que la famille mobilise, et comment on se tient pendant le rite."
+      "why": "Un famadihana réel : ce que la famille mobilise, et comment on se tient pendant le rite."
     },
     {
       "id": "qojtpG0EDto",
@@ -117,7 +117,7 @@
         "fihavanana",
         "asa"
       ],
-      "why": "Le proverbe qui place le lien avant l'argent, explique ligne par ligne."
+      "why": "Le proverbe qui place le lien avant l'argent, expliqué ligne par ligne."
     },
     {
       "id": "nsCWvpe061Y",
@@ -128,7 +128,7 @@
         "fahendrena",
         "fahoriana"
       ],
-      "why": "L'origine d'un ohabolana sur le mauvais moment, replacee dans son contexte."
+      "why": "L'origine d'un ohabolana sur le mauvais moment, replacée dans son contexte."
     },
     {
       "id": "A8vXTXJS-V4",
@@ -139,7 +139,7 @@
         "fahendrena",
         "fianarana"
       ],
-      "why": "La difference entre un ohabolana et un simple dicton, pour ne pas citer de travers."
+      "why": "La différence entre un ohabolana et un simple dicton, pour ne pas citer de travers."
     },
     {
       "id": "rd5Gjmt6Y7Q",
@@ -150,7 +150,7 @@
         "fihavanana",
         "fitondrantena"
       ],
-      "why": "Le fihavanana pris comme mode de vie, pas comme simple solidarite de famille."
+      "why": "Le fihavanana pris comme mode de vie, pas comme simple solidarité de famille."
     },
     {
       "id": "UhhoH8B443o",
@@ -161,7 +161,7 @@
         "asa",
         "fitondrantena"
       ],
-      "why": "Le hira gasy, ou la lecon de morale passe par le chant et la danse, sur la place du village."
+      "why": "Le hira gasy, où la leçon de morale passe par le chant et la danse, sur la place du village."
     },
     {
       "id": "JNBGR835pOU",
@@ -183,7 +183,7 @@
         "asa",
         "fahoriana"
       ],
-      "why": "Une troupe itinerante des hautes terres, du kabary d'ouverture jusqu'a la danse finale."
+      "why": "Une troupe itinérante des hautes terres, du kabary d'ouverture jusqu'à la danse finale."
     },
     {
       "id": "Z90VlbV7v4o",
@@ -194,7 +194,7 @@
         "fitondrantena",
         "fihavanana"
       ],
-      "why": "Des extraits chantes d'une troupe historique, et les conseils de conduite qu'ils portent."
+      "why": "Des extraits chantés d'une troupe historique, et les conseils de conduite qu'ils portent."
     }
   ],
   "searches": {
