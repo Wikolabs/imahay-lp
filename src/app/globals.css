@@ -143,8 +143,8 @@ h3 { font-size: clamp(1.12rem, 2.3vw, 1.38rem); }
   background: var(--green-deep); color: #FAF8F1;
   transition: background-color .16s ease, transform .16s ease;
 }
-:root[data-theme="dark"] .btn { color: #14110C; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn { color: #14110C; } }
+:root[data-theme="dark"] .btn:not(.btn-soft) { color: #14110C; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn:not(.btn-soft) { color: #14110C; } }
 .btn:hover { background: var(--green); transform: translateY(-1px); }
 .btn:disabled { background: var(--line-strong); color: var(--paper-2); cursor: not-allowed; transform: none; }
 .btn-gold { background: var(--gold); color: #14110C; }
