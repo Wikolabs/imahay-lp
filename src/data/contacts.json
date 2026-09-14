@@ -1,0 +1,113 @@
+{
+  "note": "Uniquement des organisations qui publient elles-memes leurs coordonnees sur leur propre site. Aucun numero personnel, aucune adresse privee, aucun individu. Chaque page a ete ouverte et lue avant d'etre inscrite ici.",
+  "checkedAt": "2026-09-14",
+  "warning": "Deux domaines universitaires malgaches, dont celui de la Faculte des Lettres, sont aujourd'hui detournes vers des sites de jeux d'argent. Ils ne figurent pas ici.",
+  "places": [
+    {
+      "name": "FIMPIMA, Fikambanan'ny Mpikabary Malagasy",
+      "kind": "Association des mpikabary",
+      "city": "67 ha Sud, Antananarivo",
+      "url": "https://www.fimpima.org/",
+      "phone": "033 82 965 29",
+      "note": {
+        "fr": "L'association qui forme et réunit les mpikabary, avec ses séances publiques Loabary an-dasy.",
+        "mg": "Ny fikambanana mampiofana sy mampivondrona ny mpikabary, miaraka amin'ny Loabary an-dasy.",
+        "en": "The association that trains and gathers mpikabary, with its public Loabary an-dasy sessions."
+      },
+      "inChat": true
+    },
+    {
+      "name": "Akademia Malagasy",
+      "kind": "Académie nationale des arts, des lettres et des sciences",
+      "city": "Tsimbazaza, Antananarivo",
+      "url": "https://akademia-malagasy.mg/index_fr.php",
+      "phone": "+261 34 93 882 28",
+      "note": {
+        "fr": "L'Académie publie son bulletin, ses mémoires et le travail sur le Rakibolana Rakipahalalana.",
+        "mg": "Mamoaka ny gazetiny, ny memoara ary ny asa momba ny Rakibolana Rakipahalalana ny Akademia.",
+        "en": "The Academy publishes its bulletin, its memoirs and the Rakibolana Rakipahalalana work."
+      },
+      "inChat": true
+    },
+    {
+      "name": "Institut Français de Madagascar",
+      "kind": "Centre culturel",
+      "city": "Analakely, Antananarivo",
+      "url": "https://www.institutfrancais-madagascar.com/",
+      "phone": "+261 20 22 236 47",
+      "note": {
+        "fr": "Bibliothèque, spectacles et rencontres, au 14 avenue de l'Indépendance.",
+        "mg": "Tranomboky, fampisehoana ary fihaonana, ao amin'ny 14 lalana Fahaleovantena.",
+        "en": "Library, performances and talks, at 14 avenue de l'Indépendance."
+      },
+      "inChat": false
+    },
+    {
+      "name": "Fondation H",
+      "kind": "Fondation d'art contemporain",
+      "city": "Rue Refotaka, Antananarivo",
+      "url": "https://www.fondation-h.com/visiter",
+      "phone": "+261 38 05 500 50",
+      "note": {
+        "fr": "Entrée gratuite, du mardi au samedi de neuf à dix-sept heures, dimanche de dix à seize heures.",
+        "mg": "Fidirana maimaim-poana, talata ka hatramin'ny sabotsy 9 ora ka hatramin'ny 17 ora, alahady 10 ka hatramin'ny 16 ora.",
+        "en": "Free entry, Tuesday to Saturday nine to five, Sunday ten to four."
+      },
+      "inChat": false
+    },
+    {
+      "name": "Goethe-Zentrum Antananarivo",
+      "kind": "Centre culturel, Cercle Germano-Malagasy",
+      "city": "Analakely, Antananarivo",
+      "url": "https://goethe.mg/",
+      "phone": "+261 32 61 732 80",
+      "note": {
+        "fr": "Bibliothèque, cinéma, musique et clubs ouverts au public, dans l'immeuble Ifanomezantsoa.",
+        "mg": "Tranomboky, sarimihetsika, mozika sy klioba misokatra ho an'ny daholobe, ao amin'ny Ifanomezantsoa.",
+        "en": "Library, cinema, music and clubs open to the public, in the Ifanomezantsoa building."
+      },
+      "inChat": false
+    },
+    {
+      "name": "Musée de la Photographie de Madagascar",
+      "kind": "Musée",
+      "city": "Anjohy, Antananarivo",
+      "url": "https://www.photo-madagascar.com/presentation/",
+      "phone": "+261 32 11 637 05",
+      "note": {
+        "fr": "Les photographies prises à Madagascar entre 1860 et 1960. Les horaires sont à confirmer par téléphone.",
+        "mg": "Ny sary nalaina teto Madagasikara teo anelanelan'ny 1860 sy 1960. Hamarino amin'ny telefaona ny ora.",
+        "en": "Photographs taken in Madagascar between 1860 and 1960. Confirm opening hours by phone."
+      },
+      "inChat": false
+    }
+  ],
+  "help": [
+    {
+      "name": "Ligne verte 147",
+      "kind": "Ligne d'écoute, protection de l'enfance, gratuite, jour et nuit",
+      "city": "Tout Madagascar",
+      "url": "https://childhelplineinternational.org/madagascar-ligne-verte-147-madagascar/",
+      "phone": "147",
+      "note": {
+        "fr": "Composez le 147 depuis Madagascar. Gratuit, sept jours sur sept, des professionnels formés répondent.",
+        "mg": "Tsindrio ny 147 avy eto Madagasikara. Maimaim-poana, isan'andro, olona nahazo fiofanana no mamaly.",
+        "en": "Dial 147 from Madagascar. Free, seven days a week, answered by trained professionals."
+      },
+      "inChat": true
+    },
+    {
+      "name": "Ordre National des Psychologues de Madagascar",
+      "kind": "Annuaire public des psychologues inscrits",
+      "city": "Faravohitra, Antananarivo",
+      "url": "https://ordrepsy.mg/",
+      "phone": "+261 34 72 168 43",
+      "note": {
+        "fr": "Un annuaire par région, pour vérifier qu'un psychologue est bien inscrit avant de le consulter.",
+        "mg": "Lisitra isam-paritra, hanamarinana fa voasoratra ara-dalana ilay psikolojista alohan'ny hanatonana azy.",
+        "en": "A directory by region, to check a psychologist is properly registered before consulting them."
+      },
+      "inChat": true
+    }
+  ]
+}

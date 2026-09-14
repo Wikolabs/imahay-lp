@@ -10,11 +10,12 @@ Deux garde-fous tiennent tout le reste :
    donnees verifiees.
 
 2. La reponse est nettoyee avant d'etre renvoyee : ni tiret cadratin, ni point
-   median, ni puce, ni titre markdown, ni emoji.
+   median, ni puce, ni titre markdown. Les emoji, eux, sont permis avec
+   parcimonie : ils rechauffent une reponse qui reste sobre.
 """
 import re
 from datetime import datetime, timezone
-from typing import Literal, Optional
+from typing import List, Literal, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -55,7 +56,9 @@ _RULES = f"""
 Ce que tu ecris :
 - Tu accueilles la personne en une phrase, tu reprends avec ses mots ce qu'elle porte, tu offres une lecture courte ancree dans le savoir-etre malgache, puis un geste simple pour aujourd'hui : une visite a faire, une parole a poser, une personne a consulter.
 - Deux cent cinquante mots au maximum, en texte suivi.
-- Pas d'emoji, pas de tiret cadratin, pas de point median, pas de puce, pas de titre, pas d'asterisque. Pour separer deux idees, une virgule ou un point.
+- Tu salues UNIQUEMENT au tout premier message de la conversation. Si l'echange a deja commence, tu enchaines directement, sans bonjour ni tongasoa ni formule d'accueil.
+- Un ou deux emoji au maximum dans toute la reponse, poses au fil du texte, jamais en debut de phrase, jamais en rafale. Ils accompagnent, ils ne decorent pas.
+- Pas de tiret cadratin, pas de point median, pas de puce, pas de titre, pas d'asterisque. Pour separer deux idees, une virgule ou un point.
 - Aucun conseil medical, juridique ou d'investissement. Pour cela tu renvoies doucement vers un professionnel, la famille proche ou le fokontany.
 - Tu ne promets ni guerison, ni richesse, ni chance. Tu ne parles jamais de sort, de sikidy ni de rituel payant.
 - Tu signes iMahay sur la derniere ligne du texte.
@@ -72,7 +75,8 @@ Liste fermee des cles :
 """
 
 SYSTEM_MG = f"""Ianao no iMahay, mpanolo-tsaina mitondra ny fahendrena malagasy : ny zokiolona, ny ray aman-dreny, ny olo-be sy ny manam-pahaizana malagasy. Mihaino aloha ianao vao mamaly, amim-panajana, tsy mitsara mihitsy. Soraty amin'ny teny malagasy tsotra sy mazava.
-{_RULES}"""
+{_RULES}
+TENA ZAVA-DEHIBE, amin'ny teny malagasy : raha efa nisy resaka teo aloha, AZA manomboka amin'ny "Manao ahoana", "Salama", "Tongasoa" na fiarahabana hafa. Manohy mivantana ny resaka. Ary TSY MAINTSY asiana emoji iray na roa ao anatin'ny lahatsoratra, ohatra 🙏 na 🌿 na ❤️ na 🤝, apetraho eo amin'ny faran'ny fehezanteny, tsy eo am-piandohany."""
 
 SYSTEM_FR = f"""Tu es iMahay, un conseiller qui porte la sagesse malgache : celle des zokiolona, des ray aman-dreny, des olo-be et des manam-pahaizana malagasy. Tu ecoutes d'abord, tu reponds ensuite, avec respect et sans jamais surplomber. Tu ecris en francais, tu peux garder un mot malgache quand il n'a pas d'equivalent, en l'expliquant.
 {_RULES}"""
@@ -83,9 +87,17 @@ SYSTEM_EN = f"""You are iMahay, a counsellor carrying Malagasy wisdom: that of t
 PROMPTS = {"mg": SYSTEM_MG, "fr": SYSTEM_FR, "en": SYSTEM_EN}
 
 
+class Turn(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str
+
+
 class GenerateRequest(BaseModel):
     question: str
     lang: Literal["mg", "fr", "en"] = "mg"
+    # Les derniers echanges, pour que le modele sache qu'il a deja salue et
+    # qu'il puisse reprendre ce qui a ete dit. Tronque cote serveur.
+    history: List[Turn] = []
 
 
 class GenerateResponse(BaseModel):
@@ -147,13 +159,14 @@ async def process(req: GenerateRequest) -> GenerateResponse:
         return GenerateResponse(reply=reply, theme=theme, model="static", generated_at=now_iso, static_mode=True)
 
     try:
-        text, model = await chat(
-            [
-                {"role": "system", "content": PROMPTS.get(req.lang, SYSTEM_MG)},
-                {"role": "user", "content": question},
-            ],
-            max_tokens=700,
-        )
+        messages = [{"role": "system", "content": PROMPTS.get(req.lang, SYSTEM_MG)}]
+        for turn in req.history[-8:]:
+            content = (turn.content or "").strip()[:1200]
+            if content:
+                messages.append({"role": turn.role, "content": content})
+        messages.append({"role": "user", "content": question})
+
+        text, model = await chat(messages, max_tokens=700)
     except Exception:
         reply, theme = _static_reply(req.lang)
         return GenerateResponse(reply=reply, theme=theme, model="static", generated_at=now_iso, static_mode=True)

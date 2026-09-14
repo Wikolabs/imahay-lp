@@ -4,6 +4,20 @@ import { chat, isConfigured } from "@/lib/llm";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+/* L'historique recent voyage avec la question : sans lui le modele resalue a
+   chaque tour et perd le fil de ce qui vient d'etre dit. */
+type Turn = { role: "user" | "assistant"; content: string };
+
+function cleanHistory(raw: unknown): Turn[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter((t): t is Turn => !!t && typeof t === "object" && (t as Turn).role !== undefined)
+    .filter((t) => t.role === "user" || t.role === "assistant")
+    .map((t) => ({ role: t.role, content: String(t.content ?? "").slice(0, 1200) }))
+    .filter((t) => t.content.trim().length > 0)
+    .slice(-8);
+}
+
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8000";
 
 type Lang = "mg" | "fr" | "en";
@@ -26,7 +40,9 @@ const RULES = `
 Ce que tu ecris :
 - Tu accueilles la personne en une phrase, tu reprends avec ses mots ce qu'elle porte, tu offres une lecture courte ancree dans le savoir-etre malgache, puis un geste simple pour aujourd'hui.
 - Deux cent cinquante mots au maximum, en texte suivi.
-- Pas d'emoji, pas de tiret cadratin, pas de point median, pas de puce, pas de titre, pas d'asterisque.
+- Tu salues UNIQUEMENT au tout premier message. Si l'echange a deja commence, tu enchaines directement.
+- Un ou deux emoji au maximum, poses au fil du texte, jamais en debut de phrase.
+- Pas de tiret cadratin, pas de point median, pas de puce, pas de titre, pas d'asterisque.
 - Aucun conseil medical, juridique ou d'investissement. Tu renvoies vers un professionnel, la famille proche ou le fokontany.
 - Tu ne promets ni guerison, ni richesse, ni chance. Tu ne parles jamais de sort, de sikidy ni de rituel payant.
 - Tu signes iMahay sur la derniere ligne.
@@ -43,7 +59,8 @@ ${Object.entries(THEMES).map(([k, v]) => `- ${k} : ${v}`).join("\n")}
 `;
 
 const PROMPTS: Record<Lang, string> = {
-  mg: `Ianao no iMahay, mpanolo-tsaina mitondra ny fahendrena malagasy : ny zokiolona, ny ray aman-dreny, ny olo-be sy ny manam-pahaizana malagasy. Mihaino aloha ianao vao mamaly, amim-panajana. Soraty amin'ny teny malagasy tsotra sy mazava.\n${RULES}`,
+  mg: `Ianao no iMahay, mpanolo-tsaina mitondra ny fahendrena malagasy : ny zokiolona, ny ray aman-dreny, ny olo-be sy ny manam-pahaizana malagasy. Mihaino aloha ianao vao mamaly, amim-panajana. Soraty amin'ny teny malagasy tsotra sy mazava.\n${RULES}
+TENA ZAVA-DEHIBE : raha efa nisy resaka teo aloha, AZA manomboka amin'ny "Manao ahoana", "Salama", "Tongasoa" na fiarahabana hafa. Manohy mivantana ny resaka. Ary TSY MAINTSY asiana emoji iray na roa ao anatin'ny lahatsoratra, ohatra 🙏 na 🌿 na ❤️ na 🤝, apetraho eo amin'ny faran'ny fehezanteny, tsy eo am-piandohany.`,
   fr: `Tu es iMahay, un conseiller qui porte la sagesse malgache : celle des zokiolona, des ray aman-dreny, des olo-be et des manam-pahaizana malagasy. Tu ecoutes d'abord, tu reponds ensuite, avec respect et sans surplomber. Tu ecris en francais.\n${RULES}`,
   en: `You are iMahay, a counsellor carrying Malagasy wisdom: that of the zokiolona, the ray aman-dreny, the olo-be and Malagasy scholars. You listen first, answer second, with respect. Write in English.\n${RULES}`,
 };
@@ -76,7 +93,7 @@ function extract(text: string): { reply: string; theme: string | null } {
 }
 
 export async function POST(req: Request) {
-  let body: { question?: string; lang?: string } = {};
+  let body: { question?: string; lang?: string; history?: unknown } = {};
   try {
     body = await req.json();
   } catch {
@@ -85,6 +102,7 @@ export async function POST(req: Request) {
 
   const question = (body.question || "").trim().slice(0, 1500);
   const lang: Lang = body.lang === "fr" ? "fr" : body.lang === "en" ? "en" : "mg";
+  const history = cleanHistory(body.history);
 
   if (!question) {
     return NextResponse.json({ error: "empty_question" }, { status: 400 });
@@ -95,7 +113,7 @@ export async function POST(req: Request) {
     const r = await fetch(`${BACKEND_URL}/process`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question, lang }),
+      body: JSON.stringify({ question, lang, history }),
       cache: "no-store",
     });
     if (r.ok) {
@@ -122,6 +140,7 @@ export async function POST(req: Request) {
     const { text, model } = await chat(
       [
         { role: "system", content: PROMPTS[lang] },
+        ...history,
         { role: "user", content: question },
       ],
       700

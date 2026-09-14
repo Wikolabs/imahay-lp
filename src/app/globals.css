@@ -52,6 +52,15 @@
 
   --nav-h: 66px;
   --wrap: 1140px;
+
+  /* Alias : la conversation et les rideaux lisent ces noms la */
+  --accent: var(--green);
+  --accent-ink: var(--green-deep);
+  --accent-soft: var(--green-soft);
+  --on-accent: #FFFFFF;
+  --curtain-a: var(--red);
+  --curtain-b: var(--green);
+  --font-quote: var(--font-serif);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -72,6 +81,8 @@
     --green: #35C070;
     --green-deep: #7FDBA4;
     --green-soft: #10241A;
+    --accent-ink: var(--green-deep);
+    --on-accent: #0D1210;
     --wood: #C99A63;
     --wood-2: #E0B87E;
   }
@@ -94,6 +105,8 @@
   --green: #35C070;
   --green-deep: #7FDBA4;
   --green-soft: #10241A;
+  --accent-ink: var(--green-deep);
+  --on-accent: #0D1210;
   --wood: #C99A63;
   --wood-2: #E0B87E;
 }
@@ -205,105 +218,230 @@ h3 { font-size: clamp(1.12rem, 2.3vw, 1.38rem); }
 .section-ink .oh-fr { color: rgba(255, 255, 255, .82); }
 .section-ink .oh-src { color: rgba(255, 255, 255, .6); }
 
-/* Conversation, grande et centree */
-.chat {
-  max-width: 940px; margin: 0 auto;
-  background: var(--paper-card); border: 1px solid var(--line);
-  border-radius: var(--r-xl); overflow: hidden;
-  box-shadow: 0 2px 4px rgba(19, 25, 22, .05), 0 22px 54px rgba(19, 25, 22, .08);
-}
-:root[data-theme="dark"] .chat { box-shadow: none; }
+/* ── L'application de conversation, plein ecran ───────────────────
+   Une colonne de conversations a gauche, le fil au centre, le tout tenant
+   dans la hauteur de l'ecran sous l'en-tete. Sur telephone la colonne se
+   replie en tiroir. */
 
-.chat-head {
-  display: flex; align-items: center; justify-content: space-between; gap: 14px;
-  padding: 16px clamp(18px, 3vw, 28px); border-bottom: 1px solid var(--line);
+.app {
+  display: grid;
+  grid-template-columns: 288px minmax(0, 1fr);
+  height: calc(100svh - var(--nav-h));
+  min-height: 520px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+
+/* Colonne des conversations */
+.side {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   background: var(--paper-2);
+  border-right: 1px solid var(--line);
 }
-.chat-head b { font-family: var(--font-display); font-size: 1.06rem; font-weight: 600; }
-.chat-head .muted { font-size: .8rem; }
+.side-head { padding: 16px 16px 12px; display: flex; flex-direction: column; gap: 12px; }
+.side-new { width: 100%; justify-content: flex-start; }
+.side-title { font-family: var(--font-mono); font-size: .73rem; color: var(--ink-3); padding: 0 4px; }
+.side-list { flex: 1; min-height: 0; overflow-y: auto; padding: 0 10px 14px; display: flex; flex-direction: column; gap: 4px; }
+.side-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px; border: none; border-radius: var(--r); cursor: pointer;
+  background: transparent; color: var(--ink-2); font-size: .9rem; text-align: left; width: 100%;
+}
+.side-item:hover { background: var(--paper-3); color: var(--ink); }
+.side-item[aria-current="true"] { background: var(--accent-soft); color: var(--ink); font-weight: 600; }
+.side-item span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.side-del {
+  flex-shrink: 0; width: 26px; height: 26px; display: grid; place-items: center;
+  border: none; background: transparent; border-radius: var(--r-sm); cursor: pointer;
+  color: var(--ink-3); opacity: 0; transition: opacity .14s ease;
+}
+.side-item:hover .side-del, .side-del:focus-visible { opacity: 1; }
+.side-del:hover { background: var(--line); color: var(--ink); }
+.side-foot { padding: 12px 16px 16px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; }
+.side-foot a { font-size: .85rem; color: var(--ink-2); padding: 5px 4px; }
+.side-foot a:hover { color: var(--ink); }
+.side-empty { padding: 14px 14px; color: var(--ink-3); font-size: .85rem; line-height: 1.5; }
 
+/* Le fil */
+.pane { display: flex; flex-direction: column; min-height: 0; min-width: 0; background: var(--paper); }
 .thread {
+  flex: 1; min-height: 0; overflow-y: auto;
   display: flex; flex-direction: column; gap: 18px;
-  padding: clamp(20px, 3vw, 30px) clamp(18px, 3vw, 28px);
-  min-height: 460px; max-height: 62vh; overflow-y: auto;
+  padding: clamp(20px, 3vw, 34px) clamp(16px, 3vw, 30px);
 }
-@media (max-width: 700px) { .thread { min-height: 360px; max-height: none; } }
+.thread-in { width: 100%; max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
 
-.msg { max-width: 84%; padding: 14px 18px; font-size: 1rem; line-height: 1.6; white-space: pre-wrap; }
+.msg { max-width: 86%; padding: 14px 18px; font-size: 1rem; line-height: 1.6; white-space: pre-wrap; }
 .msg-you {
-  align-self: flex-end; background: var(--green); color: #FFFFFF;
+  align-self: flex-end; background: var(--accent); color: var(--on-accent);
   border-radius: var(--r-lg) var(--r-lg) var(--r-xs) var(--r-lg);
 }
-:root[data-theme="dark"] .msg-you { color: #0D1210; }
 .msg-ai {
   align-self: flex-start; background: var(--paper-2); color: var(--ink);
   border-radius: var(--r-lg) var(--r-lg) var(--r-lg) var(--r-xs);
-  font-family: var(--font-serif); font-size: 1.1rem; line-height: 1.58;
+  font-family: var(--font-quote); font-size: 1.1rem; line-height: 1.56;
 }
 
-/* La fiche que iMahay joint a sa reponse : le proverbe exact et la video. */
+/* L'accueil, le passage du jour et les phrases toutes faites, dans le fil */
+.intro { display: flex; flex-direction: column; gap: 20px; padding: clamp(4px, 2vh, 20px) 0; }
+.intro h1 { font-size: clamp(1.9rem, 4.4vw, 2.9rem); }
+.intro .lead { font-size: clamp(.99rem, 2vw, 1.1rem); }
+.intro-card {
+  border: 1px solid var(--line); border-radius: var(--r-lg);
+  background: var(--paper-2); padding: clamp(16px, 2.4vw, 24px);
+  display: flex; gap: 18px; align-items: center;
+}
+@media (max-width: 560px) { .intro-card { flex-direction: column; align-items: flex-start; gap: 14px; } }
+
+/* La fiche jointe a une reponse */
 .attach {
-  align-self: flex-start; width: min(100%, 580px);
+  align-self: flex-start; width: min(100%, 600px);
   border: 1px solid var(--line-strong); border-radius: var(--r-lg);
   background: var(--paper); overflow: hidden;
 }
 .attach-head {
   display: flex; align-items: center; gap: 10px;
-  padding: 11px 16px; background: var(--green-soft);
-  font-family: var(--font-mono); font-size: .75rem; color: var(--green-deep);
+  padding: 11px 16px; background: var(--accent-soft);
+  font-family: var(--font-mono); font-size: .75rem; color: var(--accent-ink);
 }
-.attach-body { padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+.attach-body { padding: 18px; display: flex; flex-direction: column; gap: 16px; }
+.attach-sep { height: 1px; background: var(--line); border: none; }
 
-.chat-foot { border-top: 1px solid var(--line); padding: clamp(16px, 2.4vw, 22px) clamp(18px, 3vw, 28px); background: var(--paper); }
-.chat-form { display: flex; gap: 12px; align-items: flex-end; }
-.chat-form textarea {
-  flex: 1; min-height: 58px; max-height: 180px; resize: vertical;
-  padding: 15px 18px; background: var(--paper-2); border: 1px solid var(--line-strong);
-  border-radius: var(--r-lg); font-size: 1rem;
+/* Parler a quelqu'un */
+.talk { display: flex; flex-direction: column; gap: 10px; }
+.talk-item {
+  display: flex; flex-direction: column; gap: 3px;
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--paper-2);
 }
-.chat-form textarea:focus { outline: none; border-color: var(--green); background: var(--paper); }
-.send { width: 58px; height: 58px; flex-shrink: 0; padding: 0; }
+.talk-item b { font-size: .92rem; }
+.talk-item span { font-family: var(--font-mono); font-size: .74rem; color: var(--ink-3); }
+.talk-item a { font-size: .86rem; color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px; }
 
-/* Situations et phrases toutes faites, dans la fenetre meme. */
-.suggest { padding: 0 clamp(18px, 3vw, 28px) clamp(18px, 2.6vw, 24px); background: var(--paper); }
-.suggest-label { font-family: var(--font-mono); font-size: .75rem; color: var(--ink-3); margin-bottom: 10px; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+/* Le pied du fil : phrases toutes faites puis la zone de saisie */
+.suggest { border-top: 1px solid var(--line); padding: 16px clamp(16px, 3vw, 30px) 0; background: var(--paper); }
+.suggest-in { width: 100%; max-width: 780px; margin: 0 auto; }
+.suggest-label { font-family: var(--font-mono); font-size: .74rem; color: var(--ink-3); margin-bottom: 9px; }
+.chips { display: flex; flex-wrap: wrap; gap: 7px; }
 .chip {
-  padding: 8px 15px; background: var(--paper-3); border: none;
-  border-radius: var(--r-full); cursor: pointer; font-size: .86rem; color: var(--ink-2);
+  padding: 7px 14px; background: var(--paper-3); border: none;
+  border-radius: var(--r-full); cursor: pointer; font-size: .85rem; color: var(--ink-2);
   transition: background-color .14s ease, color .14s ease;
 }
 .chip:hover { background: var(--line); color: var(--ink); }
-.chip[aria-pressed="true"] { background: var(--green); color: #FFFFFF; }
-:root[data-theme="dark"] .chip[aria-pressed="true"] { color: #0D1210; }
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
 
-.prompts { display: grid; gap: 10px; margin-top: 14px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.prompts { display: grid; gap: 9px; margin-top: 12px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
 .prompt {
-  text-align: left; cursor: pointer; padding: 14px 16px;
+  text-align: left; cursor: pointer; padding: 12px 15px;
   background: var(--paper); border: 1px solid var(--line-strong); border-radius: var(--r);
-  font-size: .93rem; line-height: 1.45; color: var(--ink-2);
+  font-size: .9rem; line-height: 1.42; color: var(--ink-2);
   transition: border-color .14s ease, background-color .14s ease, transform .14s ease;
 }
-.prompt:hover { border-color: var(--green); background: var(--green-soft); color: var(--ink); transform: translateY(-1px); }
+.prompt:hover { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); transform: translateY(-1px); }
 .prompt:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 
+.chat-foot { padding: 16px clamp(16px, 3vw, 30px) clamp(16px, 2.4vw, 22px); background: var(--paper); }
+.chat-form { width: 100%; max-width: 780px; margin: 0 auto; display: flex; gap: 12px; align-items: flex-end; }
+.chat-form textarea {
+  flex: 1; min-height: 56px; max-height: 180px; resize: vertical;
+  padding: 15px 18px; background: var(--paper-2); border: 1px solid var(--line-strong);
+  border-radius: var(--r-lg); font-size: 1rem;
+}
+.chat-form textarea:focus { outline: none; border-color: var(--accent); background: var(--paper); }
+.send { width: 56px; height: 56px; flex-shrink: 0; padding: 0; }
 .typing { display: inline-flex; gap: 8px; align-items: center; color: var(--ink-3); font-size: .88rem; font-family: var(--font-mono); }
 
-/* Videos */
-.videos { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(262px, 1fr)); align-items: stretch; }
-.video { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--paper-card); display: flex; flex-direction: column; overflow: hidden; }
-.video-thumb { position: relative; aspect-ratio: 16 / 9; background: var(--paper-3); border: none; padding: 0; cursor: pointer; width: 100%; overflow: hidden; }
-.video-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.video-thumb span {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-  background: var(--red); color: #FFFFFF; font-weight: 700; font-size: .82rem;
-  padding: 10px 18px; border-radius: var(--r-full);
+/* Tiroir sur telephone */
+.side-toggle { display: none; }
+.scrim { display: none; }
+@media (max-width: 880px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .side {
+    position: fixed; z-index: 60; inset: var(--nav-h) auto 0 0;
+    width: min(84vw, 300px); transform: translateX(-102%);
+    transition: transform .2s ease; border-right: 1px solid var(--line-strong);
+  }
+  .side[data-open="true"] { transform: none; }
+  .scrim { display: block; position: fixed; inset: var(--nav-h) 0 0 0; z-index: 50; background: rgba(0, 0, 0, .38); border: none; }
+  .side-toggle { display: inline-flex; }
+  .msg { max-width: 92%; }
 }
+@media (prefers-reduced-motion: reduce) { .side { transition: none; } }
+
+/* Sur telephone, les situations et les phrases toutes faites prenaient presque
+   tout l'ecran et il ne restait plus rien pour le fil. Elles passent donc en
+   defilement horizontal, sur une seule ligne chacune. */
+@media (max-width: 880px) {
+  .chips { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex-shrink: 0; }
+  .prompts {
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 76%;
+    overflow-x: auto; padding-bottom: 4px; scrollbar-width: none;
+  }
+  .prompts::-webkit-scrollbar { display: none; }
+  .suggest { padding-top: 12px; }
+  .thread { padding-top: 16px; }
+}
+
+/* ── Videos, avec leur rideau ─────────────────────────────────────
+   La vignette YouTube est cachee derriere deux pans de couleur qui portent le
+   titre. Ils s'ecartent au survol et au clavier, puis la video se charge. */
+
+.videos { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(262px, 1fr)); align-items: stretch; }
+.video {
+  border: 1px solid var(--line); border-radius: var(--r-lg);
+  background: var(--paper-card, var(--paper)); display: flex; flex-direction: column; overflow: hidden;
+}
+.video-thumb {
+  position: relative; aspect-ratio: 16 / 9; width: 100%;
+  background: var(--paper-3); border: none; padding: 0; cursor: pointer; overflow: hidden; display: block;
+}
+.video-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.curtain { position: absolute; inset: 0; pointer-events: none; }
+.curtain i {
+  position: absolute; top: 0; bottom: 0; width: 50.5%;
+  transition: transform .42s cubic-bezier(.22, .8, .2, 1);
+}
+.curtain i:first-child { left: 0; background: var(--curtain-a); }
+.curtain i:last-child { right: 0; background: var(--curtain-b); }
+.video-thumb:hover .curtain i:first-child,
+.video-thumb:focus-visible .curtain i:first-child { transform: translateX(-101%); }
+.video-thumb:hover .curtain i:last-child,
+.video-thumb:focus-visible .curtain i:last-child { transform: translateX(101%); }
+
+.curtain-txt {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 8px;
+  padding: 14px 16px; color: #FFFFFF; text-align: left;
+  transition: opacity .28s ease;
+}
+.curtain-txt b { font-size: .95rem; font-weight: 700; line-height: 1.28; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.curtain-txt em { font-family: var(--font-mono); font-size: .7rem; font-style: normal; opacity: .82; }
+.video-thumb:hover .curtain-txt, .video-thumb:focus-visible .curtain-txt { opacity: 0; }
+
+.curtain-play {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3;
+  width: 52px; height: 52px; border-radius: var(--r-full);
+  background: #FFFFFF; color: var(--accent-ink);
+  display: grid; place-items: center; pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .28);
+}
+@media (prefers-reduced-motion: reduce) {
+  .curtain i { transition: none; }
+  .curtain-txt { transition: none; }
+}
+
 .video iframe { aspect-ratio: 16 / 9; width: 100%; border: none; }
 .video-meta { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
 .video-meta b { font-size: .92rem; font-weight: 600; line-height: 1.32; }
 .video-meta span { font-family: var(--font-mono); font-size: .73rem; color: var(--ink-3); }
 .video-meta p { font-size: .86rem; color: var(--ink-2); margin-top: 2px; }
+
 
 /* Table */
 .tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-lg); }
