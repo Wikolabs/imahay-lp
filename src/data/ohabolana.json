@@ -7,7 +7,22 @@
       "en": "Kinship and solidarity",
       "ask_mg": "Misy fifanolanana amin'ny havako, ahoana no tokony hataoko ?",
       "ask_fr": "Il y a un conflit dans ma famille, comment devrais-je m'y prendre ?",
-      "ask_en": "There is a conflict in my family, how should I handle it?"
+      "ask_en": "There is a conflict in my family, how should I handle it?",
+      "prompts_mg": [
+        "Misy fifanolanana amin'ny havako, ahoana no tokony hataoko ?",
+        "Tsy mifampiresaka intsony izahay mianakavy hatramin'ny nisaraka ny fananana.",
+        "Angatahin'ny mpiara-monina foana aho hanampy, tsy sahy mandà."
+      ],
+      "prompts_fr": [
+        "Il y a un conflit dans ma famille, comment devrais-je m'y prendre ?",
+        "On ne se parle plus depuis le partage de l'heritage.",
+        "Un voisin me demande de l'aide sans arret, je n'ose pas refuser."
+      ],
+      "prompts_en": [
+        "There is a conflict in my family, how should I handle it?",
+        "We stopped speaking after the inheritance was divided.",
+        "A neighbour keeps asking me for help and I dare not refuse."
+      ]
     },
     "fahendrena": {
       "mg": "Fahendrena",
@@ -15,7 +30,22 @@
       "en": "Wisdom and decision",
       "ask_mg": "Sarotra amiko ny manapa-kevitra, inona no tokony hodinihiko ?",
       "ask_fr": "J'ai une decision difficile a prendre, que devrais-je peser ?",
-      "ask_en": "I have a hard decision to make, what should I weigh?"
+      "ask_en": "I have a hard decision to make, what should I weigh?",
+      "prompts_mg": [
+        "Sarotra amiko ny manapa-kevitra, inona no tokony hodinihiko ?",
+        "Misy safidy roa eo anoloako, samy manana ny tsara sy ny ratsy.",
+        "Marobe ny torohevitra azoko, ka very hevitra aho."
+      ],
+      "prompts_fr": [
+        "J'ai une decision difficile a prendre, que devrais-je peser ?",
+        "Deux choix s'offrent a moi, chacun a son bon et son mauvais cote.",
+        "Je recois trop de conseils contradictoires et je ne sais plus."
+      ],
+      "prompts_en": [
+        "I have a hard decision to make, what should I weigh?",
+        "Two options are in front of me, each with its good and bad side.",
+        "I am getting too much conflicting advice and I am lost."
+      ]
     },
     "fitondrantena": {
       "mg": "Fitondran-tena",
@@ -23,7 +53,22 @@
       "en": "Conduct and uprightness",
       "ask_mg": "Misy fanararaotana eo amin'ny asako, ahoana no fitondran-tena mety ?",
       "ask_fr": "On me pousse a une chose que je crois malhonnete, comment me conduire ?",
-      "ask_en": "I am being pushed into something I believe is dishonest, how should I act?"
+      "ask_en": "I am being pushed into something I believe is dishonest, how should I act?",
+      "prompts_mg": [
+        "Misy fanararaotana eo amin'ny asako, ahoana no fitondran-tena mety ?",
+        "Nisy nangataka ahy hanao zavatra tsy mahitsy, tsy hitako izay hovaliana.",
+        "Simba ny lazako noho ny fitenenana, ahoana no hanarenana azy ?"
+      ],
+      "prompts_fr": [
+        "On me pousse a une chose que je crois malhonnete, comment me conduire ?",
+        "Quelqu'un m'a demande de fermer les yeux, je ne sais pas quoi repondre.",
+        "Ma reputation a ete abimee par des paroles, comment la relever ?"
+      ],
+      "prompts_en": [
+        "I am being pushed into something dishonest, how should I act?",
+        "Someone asked me to look away and I do not know what to answer.",
+        "Talk has damaged my name, how do I set it right?"
+      ]
     },
     "asa": {
       "mg": "Asa sy ezaka",
@@ -31,7 +76,22 @@
       "en": "Work and effort",
       "ask_mg": "Kivy aho amin'ny asako, tsy mahita vokatra intsony.",
       "ask_fr": "Je me decourage dans mon travail, je ne vois plus de resultat.",
-      "ask_en": "I am losing heart at work, I no longer see any result."
+      "ask_en": "I am losing heart at work, I no longer see any result.",
+      "prompts_mg": [
+        "Kivy aho amin'ny asako, tsy mahita vokatra intsony.",
+        "Efa ela aho no mitady asa, tsy misy mamaly ny fangatahako.",
+        "Be loatra ny asa ataoko, tsy misy fotoana ho an'ny fianakaviana."
+      ],
+      "prompts_fr": [
+        "Je me decourage dans mon travail, je ne vois plus de resultat.",
+        "Je cherche un emploi depuis longtemps et personne ne repond.",
+        "Je travaille trop, il ne reste plus de temps pour ma famille."
+      ],
+      "prompts_en": [
+        "I am losing heart at work, I no longer see any result.",
+        "I have been job hunting for a long time and nobody answers.",
+        "I work too much, there is no time left for my family."
+      ]
     },
     "fianarana": {
       "mg": "Fianarana",
@@ -39,7 +99,22 @@
       "en": "Learning and passing on",
       "ask_mg": "Tiako ho hain'ny zanako ny fomba malagasy, ahoana no ampitako azy ?",
       "ask_fr": "Je veux transmettre les fomba a mes enfants, comment m'y prendre ?",
-      "ask_en": "I want to pass the fomba on to my children, how do I go about it?"
+      "ask_en": "I want to pass the fomba on to my children, how do I go about it?",
+      "prompts_mg": [
+        "Tiako ho hain'ny zanako ny fomba malagasy, ahoana no ampitako azy ?",
+        "Tsy te hihaino ahy intsony ny zanako lahimatoa.",
+        "Te hianatra kabary aho, aiza no atombohana ?"
+      ],
+      "prompts_fr": [
+        "Je veux transmettre les fomba a mes enfants, comment m'y prendre ?",
+        "Mon aine ne veut plus m'ecouter.",
+        "Je veux apprendre le kabary, par ou commencer ?"
+      ],
+      "prompts_en": [
+        "I want to pass the fomba on to my children, how do I go about it?",
+        "My eldest will not listen to me any more.",
+        "I want to learn kabary, where do I start?"
+      ]
     },
     "fanambadiana": {
       "mg": "Fanambadiana",
@@ -47,7 +122,22 @@
       "en": "Couple and marriage",
       "ask_mg": "Hangataka vady aho, inona no tokony homaniko ?",
       "ask_fr": "Je vais faire une demande en mariage, que dois-je preparer ?",
-      "ask_en": "I am going to ask for a hand in marriage, what should I prepare?"
+      "ask_en": "I am going to ask for a hand in marriage, what should I prepare?",
+      "prompts_mg": [
+        "Hangataka vady aho, inona no tokony homaniko ?",
+        "Matetika izahay mivady no mifanditra noho ny vola.",
+        "Tsy mankasitraka ahy ny rafozako, mavesatra izany."
+      ],
+      "prompts_fr": [
+        "Je vais faire une demande en mariage, que dois-je preparer ?",
+        "Avec mon conjoint, nous nous disputons souvent a cause de l'argent.",
+        "Ma belle-famille ne m'accepte pas, c'est lourd a porter."
+      ],
+      "prompts_en": [
+        "I am going to ask for a hand in marriage, what should I prepare?",
+        "My partner and I argue about money again and again.",
+        "My in-laws do not accept me and it weighs on me."
+      ]
     },
     "fahoriana": {
       "mg": "Fahoriana",
@@ -55,7 +145,22 @@
       "en": "Grief and hardship",
       "ask_mg": "Nodimandry ny havako, mavesatra loatra ny fo.",
       "ask_fr": "J'ai perdu un proche, le coeur est trop lourd.",
-      "ask_en": "I lost someone close, my heart is too heavy."
+      "ask_en": "I lost someone close, my heart is too heavy.",
+      "prompts_mg": [
+        "Nodimandry ny havako, mavesatra loatra ny fo.",
+        "Marary hatry ny ela aho, reraka ny fanantenako.",
+        "Nafoin'ny olona nitokiako aho, tsy hitako izay hitsanganana."
+      ],
+      "prompts_fr": [
+        "J'ai perdu un proche, le coeur est trop lourd.",
+        "Je suis malade depuis longtemps et mon esperance s'use.",
+        "La personne en qui j'avais confiance m'a laisse tomber."
+      ],
+      "prompts_en": [
+        "I lost someone close, my heart is too heavy.",
+        "I have been ill a long time and my hope is wearing thin.",
+        "The person I trusted let me down and I cannot get up."
+      ]
     },
     "fomba": {
       "mg": "Fomba aman-panao",
@@ -64,7 +169,22 @@
       "ask_mg": "Hanatrika famadihana aho, ahoana no fitondrako tena ?",
       "ask_fr": "Je vais assister a un famadihana, comment dois-je me tenir ?",
       "ask_en": "I am attending a famadihana, how should I conduct myself?",
-      "fallback": "fihavanana"
+      "fallback": "fihavanana",
+      "prompts_mg": [
+        "Hanatrika famadihana aho, ahoana no fitondrako tena ?",
+        "Tsy fantatro izay lazaina rehefa mitsidika ny ao am-pitaizana.",
+        "Inona no fomba tokony harahina rehefa misy fisaonana ao an-tanana ?"
+      ],
+      "prompts_fr": [
+        "Je vais assister a un famadihana, comment dois-je me tenir ?",
+        "Je ne sais pas quoi dire en arrivant dans une maison en deuil.",
+        "Quelles regles suivre quand un deces frappe le quartier ?"
+      ],
+      "prompts_en": [
+        "I am attending a famadihana, how should I conduct myself?",
+        "I do not know what to say when I enter a house in mourning.",
+        "What customs apply when a death strikes the neighbourhood?"
+      ]
     }
   },
   "sources": [

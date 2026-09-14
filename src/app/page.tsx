@@ -3,13 +3,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import culture from "@/data/culture.json";
 import ohabolanaData from "@/data/ohabolana.json";
+import Aloalo from "./Aloalo";
+import { Flag, FlagRow, FlagRule } from "./Flag";
 
 /* ────────────────────────────────────────────────────────────────────────────
-   Types et donnees
+   Donnees
    ──────────────────────────────────────────────────────────────────────────── */
 
 type Lang = "mg" | "fr" | "en";
-type ThemeKey = keyof typeof ohabolanaData.themes;
 
 type Ohabolana = {
   id: string;
@@ -34,32 +35,38 @@ type Video = {
   why: string;
 };
 
+type ThemeEntry = {
+  mg: string;
+  fr: string;
+  en: string;
+  fallback?: string;
+  prompts_mg: string[];
+  prompts_fr: string[];
+  prompts_en: string[];
+};
+
 const OHABOLANA = ohabolanaData.items as Ohabolana[];
-const THEMES = ohabolanaData.themes as Record<
-  string,
-  { mg: string; fr: string; en: string; ask_mg: string; ask_fr: string; ask_en: string; fallback?: string }
->;
+const THEMES = ohabolanaData.themes as Record<string, ThemeEntry>;
 const THEME_KEYS = Object.keys(THEMES);
 const VIDEOS = culture.videos as Video[];
 const CATEGORIES = culture.categories as Record<string, { mg: string; fr: string }>;
-const SEARCHES = culture.searches as Record<string, string>;
 
-/* Un theme peut n'avoir aucun proverbe qui lui soit propre : fomba, par
-   exemple, parle de rites et non de conduite. Il declare alors un theme de
-   repli dans ohabolana.json plutot que de rester vide. */
+const DAY = () => Math.floor(Date.now() / 86400000);
+
 function ohabolanaFor(theme: string | null): Ohabolana | null {
   if (!theme) return null;
   const pool = OHABOLANA.filter((o) => o.theme === theme);
-  if (pool.length) return pool[Math.floor(Date.now() / 86400000) % pool.length];
+  if (pool.length) return pool[DAY() % pool.length];
   const fallback = THEMES[theme]?.fallback;
   if (!fallback) return null;
   const alt = OHABOLANA.filter((o) => o.theme === fallback);
   return alt.length ? alt[0] : null;
 }
 
-function videosFor(theme: string | null, limit = 2): Video[] {
-  if (!theme) return [];
-  return VIDEOS.filter((v) => v.themes.includes(theme)).slice(0, limit);
+function videoFor(theme: string | null): Video | null {
+  if (!theme) return null;
+  const pool = VIDEOS.filter((v) => v.themes.includes(theme));
+  return pool.length ? pool[DAY() % pool.length] : null;
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
@@ -78,19 +85,24 @@ const T: Record<Lang, Record<string, string>> = {
     heroCta: "Apetraho ny fanontanianao",
     heroCta2: "Jereo ny horonan-tsary",
     ohOfDay: "Ohabolana androany",
+    aloaloTitle: "Ny aloalo",
+    aloaloLead:
+      "Tsotra ny hazo, saingy misy sokitra mifanaraka eo aminy : lohan'omby sy tandrony, diamondra, boribory, efamira, tsipika. Isaky ny aloalo dia tantara iray naorina tamin'ireo endrika ireo.",
     talkTitle: "Miresaka amin'i iMahay",
     talkLead:
       "Tsy misy kaonty, tsy misy anarana angatahina. Ny resaka dia tsy voatahiry rehefa mikatona ny pejy.",
+    chatName: "iMahay",
+    chatStatus: "Maimaim-poana, misokatra andro aman'alina",
     placeholder: "Soraty eto izay entinao androany.",
     send: "Alefa",
     thinking: "Mieritreritra",
-    pickTheme: "Na safidio ny toe-javatra manakaiky indrindra",
-    asideEmpty:
-      "Rehefa mamaly i iMahay, hiseho eto ny ohabolana marina sy ny horonan-tsary mifandraika amin'ny resaka.",
-    asideTheme: "Toe-javatra",
-    asideExample: "Ohatra",
-    asideOh: "Ny ohabolana",
-    asideVideo: "Henoy",
+    welcome:
+      "Tongasoa. Lazao amin'ny teninao izay entinao androany, na tsindrio ny toe-javatra manakaiky indrindra eto ambany.",
+    pickTheme: "Safidio ny toe-javatra",
+    pickPrompt: "Na alaivo ny iray amin'ireto fanontaniana ireto",
+    attach: "Ny ohabolana mifanaraka amin'izany",
+    example: "Ohatra",
+    attachVideo: "Henoy",
     ohTitle: "Ny ohabolana voamarina",
     ohLead:
       "Tsy manoratra ohabolana i iMahay. Izao lisitra izao ihany no ampiasainy, ary voatondro ny loharano nakana azy.",
@@ -98,7 +110,6 @@ const T: Record<Lang, Record<string, string>> = {
     cultureLead:
       "Kabary, ohabolana nohazavaina, fomba aman-panao, hira gasy. Tsindrio ny sary vao mihodina ny horonan-tsary, tsy alefa mialoha.",
     filterAll: "Izy rehetra",
-    searchMore: "Tadiavo hafa amin'ny YouTube",
     truthTitle: "Izay ataon'i iMahay, sy izay tsy ataony",
     truthDo: "Izay ataony",
     truthDont: "Izay tsy ataony",
@@ -119,18 +130,23 @@ const T: Record<Lang, Record<string, string>> = {
     heroCta: "Pose ta question",
     heroCta2: "Voir les videos",
     ohOfDay: "Proverbe du jour",
+    aloaloTitle: "L'aloalo",
+    aloaloLead:
+      "Le bois est nu, mais on y empile des formes : tete de zebu et cornes, losange, disque, carre, chevrons. Chaque poteau raconte une histoire construite avec ces formes.",
     talkTitle: "Parler avec iMahay",
     talkLead: "Aucun compte, aucun nom demande. La conversation n'est pas conservee quand la page se ferme.",
+    chatName: "iMahay",
+    chatStatus: "Gratuit, ouvert jour et nuit",
     placeholder: "Ecris ici ce que tu portes aujourd'hui.",
     send: "Envoyer",
     thinking: "Reflechit",
-    pickTheme: "Ou choisis la situation la plus proche",
-    asideEmpty:
-      "Des qu'iMahay repond, le proverbe exact et la video correspondante apparaissent ici.",
-    asideTheme: "Situation",
-    asideExample: "Exemple",
-    asideOh: "Le proverbe",
-    asideVideo: "A ecouter",
+    welcome:
+      "Bienvenue. Dis avec tes mots ce que tu portes aujourd'hui, ou touche la situation la plus proche ci-dessous.",
+    pickTheme: "Choisis la situation",
+    pickPrompt: "Ou prends l'une de ces questions",
+    attach: "Le proverbe qui correspond",
+    example: "Exemple",
+    attachVideo: "A ecouter",
     ohTitle: "Les proverbes verifies",
     ohLead:
       "iMahay n'ecrit jamais un ohabolana. Il ne peut citer que cette liste, et chaque entree porte sa source.",
@@ -138,7 +154,6 @@ const T: Record<Lang, Record<string, string>> = {
     cultureLead:
       "Kabary, proverbes expliques, fomba aman-panao, hira gasy. La video ne se charge qu'apres un clic sur la vignette.",
     filterAll: "Tout",
-    searchMore: "Chercher d'autres videos sur YouTube",
     truthTitle: "Ce qu'iMahay fait, et ce qu'il ne fait pas",
     truthDo: "Ce qu'il fait",
     truthDont: "Ce qu'il ne fait pas",
@@ -159,17 +174,23 @@ const T: Record<Lang, Record<string, string>> = {
     heroCta: "Ask your question",
     heroCta2: "Watch the videos",
     ohOfDay: "Proverb of the day",
+    aloaloTitle: "The aloalo",
+    aloaloLead:
+      "The wood is plain, but shapes are stacked on it: zebu head and horns, diamond, disc, square, chevrons. Each post tells a story built from those shapes.",
     talkTitle: "Talk with iMahay",
     talkLead: "No account, no name asked. The conversation is not kept once the page closes.",
+    chatName: "iMahay",
+    chatStatus: "Free, open day and night",
     placeholder: "Write here what you are carrying today.",
     send: "Send",
     thinking: "Thinking",
-    pickTheme: "Or pick the closest situation",
-    asideEmpty: "As soon as iMahay answers, the exact proverb and the matching video appear here.",
-    asideTheme: "Situation",
-    asideExample: "Example",
-    asideOh: "The proverb",
-    asideVideo: "Listen",
+    welcome:
+      "Welcome. Say in your own words what you carry today, or tap the closest situation below.",
+    pickTheme: "Pick the situation",
+    pickPrompt: "Or take one of these questions",
+    attach: "The proverb that fits",
+    example: "Example",
+    attachVideo: "Listen",
     ohTitle: "The verified proverbs",
     ohLead:
       "iMahay never writes an ohabolana. It can only draw from this list, and every entry carries its source.",
@@ -177,7 +198,6 @@ const T: Record<Lang, Record<string, string>> = {
     cultureLead:
       "Kabary, explained proverbs, customs, hira gasy. A video loads only after you click its thumbnail.",
     filterAll: "All",
-    searchMore: "Search YouTube for more",
     truthTitle: "What iMahay does, and what it does not",
     truthDo: "What it does",
     truthDont: "What it does not do",
@@ -235,40 +255,21 @@ const DONTS: Record<Lang, string[]> = {
    Pieces
    ──────────────────────────────────────────────────────────────────────────── */
 
-/* Aloalo : le poteau sculpte qui marque une memoire. Tete de zebu, losange,
-   figure, medaillon, fut. Dessine, jamais un emoji. */
-function Aloalo({ height = 168, color = "var(--line-strong)" }: { height?: number; color?: string }) {
-  return (
-    <svg width={height / 2.4} height={height} viewBox="0 0 80 192" fill="none" aria-hidden="true">
-      <path d="M32 26 C 16 26, 8 14, 16 4" stroke={color} strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M48 26 C 64 26, 72 14, 64 4" stroke={color} strokeWidth="2.2" strokeLinecap="round" />
-      <circle cx="40" cy="28" r="9" stroke={color} strokeWidth="1.6" />
-      <circle cx="40" cy="28" r="1.8" fill={color} />
-      <path d="M40 37 L 52 50 L 40 62 L 28 50 Z" stroke={color} strokeWidth="1.4" />
-      <path d="M40 43 L 40 56 M34 50 L 46 50" stroke={color} strokeWidth="1.2" />
-      <circle cx="40" cy="72" r="5" stroke={color} strokeWidth="1.4" />
-      <path d="M40 77 L 40 95 M 32 84 L 48 84 M 36 95 L 32 110 M 44 95 L 48 110" stroke={color} strokeWidth="1.6" strokeLinecap="round" />
-      <circle cx="40" cy="120" r="8" stroke={color} strokeWidth="1.4" />
-      <path d="M32 120 L 48 120 M 40 112 L 40 128" stroke={color} strokeWidth="1.2" />
-      <rect x="36" y="130" width="8" height="58" stroke={color} strokeWidth="1.4" />
-      <path d="M36 145 L 32 148 L 36 151 Z M44 145 L 48 148 L 44 151 Z M36 162 L 32 165 L 36 168 Z M44 162 L 48 165 L 44 168 Z" fill={color} />
-      <path d="M26 190 H 54" stroke={color} strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 function Wordmark() {
   return (
-    <span style={{ fontFamily: "var(--font-display)", fontSize: "1.5rem", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1 }}>
-      <span style={{ color: "var(--green-deep)" }}>i</span>
-      <span style={{ color: "var(--ink)" }}>Mahay</span>
-      <span style={{ color: "var(--red)" }}>.</span>
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 9 }}>
+      <Flag height={17} />
+      <span style={{ fontFamily: "var(--font-display)", fontSize: "1.5rem", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1 }}>
+        <span style={{ color: "var(--green)" }}>i</span>
+        <span style={{ color: "var(--ink)" }}>Mahay</span>
+        <span style={{ color: "var(--red)" }}>.</span>
+      </span>
     </span>
   );
 }
 
 function OhabolanaBlock({ o, lang, showSource = true }: { o: Ohabolana; lang: Lang; showSource?: boolean }) {
-  const translation = lang === "mg" ? o.fr : lang === "en" ? o.en : o.fr;
+  const translation = lang === "en" ? o.en : o.fr;
   return (
     <div className="oh">
       <p className="oh-mg">{o.mg}</p>
@@ -322,17 +323,16 @@ function VideoCard({ v, lang }: { v: Video; lang: Lang }) {
    Page
    ──────────────────────────────────────────────────────────────────────────── */
 
-type Msg = { role: "you" | "imahay"; text: string };
+type Msg = { role: "you"; text: string } | { role: "imahay"; text: string; theme: string | null };
 
 export default function Home() {
   const [lang, setLang] = useState<Lang>("mg");
   const t = T[lang];
 
-  /* Conversation */
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
-  const [theme, setTheme] = useState<string | null>(null);
+  const [picked, setPicked] = useState<string>(THEME_KEYS[0]);
   const threadRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -340,11 +340,7 @@ export default function Home() {
     if (el) el.scrollTop = el.scrollHeight;
   }, [messages, busy]);
 
-  /* Proverbe du jour, stable sur la journee, identique pour tout le monde. */
-  const daily = useMemo(() => {
-    const day = Math.floor(Date.now() / 86400000);
-    return OHABOLANA[day % OHABOLANA.length];
-  }, []);
+  const daily = useMemo(() => OHABOLANA[DAY() % OHABOLANA.length], []);
 
   async function ask(question: string) {
     const text = question.trim();
@@ -360,33 +356,22 @@ export default function Home() {
       });
       const j = await r.json();
       if (j.reply) {
-        setMessages((m) => [...m, { role: "imahay", text: j.reply }]);
-        if (j.theme) setTheme(j.theme);
+        setMessages((m) => [...m, { role: "imahay", text: j.reply, theme: j.theme ?? null }]);
       } else {
-        setMessages((m) => [
-          ...m,
-          {
-            role: "imahay",
-            text:
-              lang === "mg"
-                ? "Misy olana amin'ny fifandraisana izao. Andramo indray afaka kelikely."
-                : lang === "en"
-                ? "The connection failed just now. Please try again in a moment."
-                : "La connexion a echoue a l'instant. Reessaie dans un moment.",
-          },
-        ]);
+        throw new Error("no_reply");
       }
     } catch {
       setMessages((m) => [
         ...m,
         {
           role: "imahay",
+          theme: null,
           text:
             lang === "mg"
-              ? "Tsy tafita ny hafatra. Andramo indray."
+              ? "Tsy tafita ny hafatra. Andramo indray afaka kelikely."
               : lang === "en"
-              ? "The message did not go through. Please try again."
-              : "Le message n'est pas parti. Reessaie.",
+              ? "The message did not go through. Please try again in a moment."
+              : "Le message n'est pas parti. Reessaie dans un moment.",
         },
       ]);
     } finally {
@@ -394,19 +379,13 @@ export default function Home() {
     }
   }
 
-  /* Avant la premiere reponse, le volet montre deja un cas reel, marque comme
-     exemple : on voit a quoi sert le volet sans avoir a ecrire quoi que ce soit. */
-  const asideTheme = theme ?? daily.theme;
-  const isExample = theme === null;
-  const asideOh = ohabolanaFor(asideTheme);
-  const asideVideos = videosFor(asideTheme, 1);
-
-  /* Videos */
   const [cat, setCat] = useState<string>("all");
   const shown = cat === "all" ? VIDEOS : VIDEOS.filter((v) => v.category === cat);
 
   const themeLabel = (k: string) => THEMES[k]?.[lang] ?? k;
-  const themeAsk = (k: string) => THEMES[k]?.[`ask_${lang}` as "ask_mg"] ?? "";
+  const prompts = THEMES[picked]?.[`prompts_${lang}` as "prompts_mg"] ?? [];
+  const exampleOh = ohabolanaFor(picked);
+  const exampleVideo = videoFor(picked);
 
   return (
     <>
@@ -420,38 +399,38 @@ export default function Home() {
             <a href="#ohabolana">{t.navOhabolana}</a>
             <a href="#kolontsaina">{t.navCulture}</a>
             <a href="#marina">{t.navTruth}</a>
-            <div className="langs">
-              {(["mg", "fr", "en"] as Lang[]).map((l) => (
-                <button key={l} aria-pressed={lang === l} onClick={() => setLang(l)}>
-                  {l.toUpperCase()}
-                </button>
-              ))}
-            </div>
           </nav>
-          <div className="langs" style={{ display: "none" }} />
+          <div className="langs">
+            {(["mg", "fr", "en"] as Lang[]).map((l) => (
+              <button key={l} aria-pressed={lang === l} onClick={() => setLang(l)}>
+                {l.toUpperCase()}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
+      <FlagRule thickness={4} />
 
       <main id="top">
         {/* 00 ─ Ouverture */}
-        <section className="section" style={{ borderTop: "none", paddingTop: "clamp(40px, 7vh, 76px)" }}>
+        <section className="section" style={{ borderTop: "none", paddingTop: "clamp(38px, 6vh, 70px)" }}>
           <div className="wrap">
             <div
+              className="hero-grid"
               style={{
                 display: "grid",
                 gap: "clamp(24px, 4vw, 56px)",
-                gridTemplateColumns: "minmax(0, 1.25fr) minmax(0, 1fr)",
-                alignItems: "start",
+                gridTemplateColumns: "minmax(0, 1.3fr) minmax(0, 1fr)",
+                alignItems: "center",
               }}
-              className="hero-grid"
             >
               <div className="rise">
                 <p className="snum">
-                  <span>00</span>
+                  <FlagRow count={3} height={16} />
                   <b>{t.free}</b>
                 </p>
                 <h1 style={{ marginBottom: 20 }}>{t.heroTitle}</h1>
-                <p className="lead" style={{ marginBottom: 26 }}>
+                <p className="lead" style={{ marginBottom: 28 }}>
                   {t.heroLead}
                 </p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
@@ -464,12 +443,13 @@ export default function Home() {
                 </div>
               </div>
 
-              <aside className="panel rise" style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
-                <div style={{ flexShrink: 0, paddingTop: 4 }}>
-                  <Aloalo height={150} />
+              <aside className="panel rise" style={{ display: "flex", gap: 22, alignItems: "center" }}>
+                <div style={{ flexShrink: 0 }}>
+                  <Aloalo variant={0} height={190} shaft={58} />
                 </div>
                 <div style={{ minWidth: 0 }}>
                   <p className="snum" style={{ marginBottom: 14 }}>
+                    <Flag height={15} />
                     <b>{t.ohOfDay}</b>
                   </p>
                   <OhabolanaBlock o={daily} lang={lang} />
@@ -479,48 +459,131 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 01 ─ Conversation */}
+        {/* 01 ─ Conversation, grande et centree */}
         <section className="section section-tint" id="miresaka">
           <div className="wrap">
-            <p className="snum">
-              <span>01</span>
-              <b>{t.navTalk}</b>
-            </p>
-            <h2 style={{ marginBottom: 12 }}>{t.talkTitle}</h2>
-            <p className="lead" style={{ marginBottom: 28 }}>
-              {t.talkLead}
-            </p>
+            <div className="narrow" style={{ textAlign: "center", marginBottom: "clamp(26px, 4vh, 40px)" }}>
+              <p className="snum" style={{ justifyContent: "center" }}>
+                <span>01</span>
+                <FlagRow count={5} height={16} />
+              </p>
+              <h2 style={{ marginBottom: 12 }}>{t.talkTitle}</h2>
+              <p className="lead" style={{ margin: "0 auto" }}>
+                {t.talkLead}
+              </p>
+            </div>
 
-            <div
-              style={{
-                display: "grid",
-                gap: "clamp(14px, 2vw, 20px)",
-                gridTemplateColumns: "minmax(0, 1.5fr) minmax(0, 1fr)",
-                alignItems: "stretch",
-              }}
-              className="chat-grid"
-            >
-              <div className="panel" style={{ display: "flex", flexDirection: "column" }}>
-                <div className="thread" ref={threadRef} style={{ minHeight: 220, flex: 1 }}>
-                  {messages.length === 0 ? (
-                    <p className="muted" style={{ padding: "18px 0" }}>
-                      {t.pickTheme}
-                    </p>
-                  ) : (
-                    messages.map((m, i) => (
-                      <div key={i} className={m.role === "you" ? "msg msg-you" : "msg msg-ai"}>
-                        {m.text}
+            <div className="chat">
+              <div className="chat-head">
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+                  <Flag height={16} />
+                  <b>{t.chatName}</b>
+                </span>
+                <span className="muted">{t.chatStatus}</span>
+              </div>
+
+              <div className="thread" ref={threadRef}>
+                {messages.length === 0 ? (
+                  <>
+                    <div className="msg msg-ai">{t.welcome}</div>
+                    {exampleOh && (
+                      <div className="attach">
+                        <div className="attach-head">
+                          <Flag height={15} />
+                          <span>
+                            {t.example}, {themeLabel(picked)}
+                          </span>
+                        </div>
+                        <div className="attach-body">
+                          <OhabolanaBlock o={exampleOh} lang={lang} />
+                          <p className="muted">
+                            {lang === "mg" ? exampleOh.meaning_mg : lang === "en" ? exampleOh.meaning_en : exampleOh.meaning_fr}
+                          </p>
+                          {exampleVideo && (
+                            <>
+                              <p className="suggest-label" style={{ margin: 0 }}>
+                                {t.attachVideo}
+                              </p>
+                              <VideoCard v={exampleVideo} lang={lang} />
+                            </>
+                          )}
+                        </div>
                       </div>
-                    ))
-                  )}
-                  {busy && (
-                    <span className="typing">
-                      {t.thinking}
-                      <span aria-hidden="true">...</span>
-                    </span>
-                  )}
-                </div>
+                    )}
+                  </>
+                ) : (
+                  messages.map((m, i) => {
+                    if (m.role === "you") {
+                      return (
+                        <div key={i} className="msg msg-you">
+                          {m.text}
+                        </div>
+                      );
+                    }
+                    const o = ohabolanaFor(m.theme);
+                    const v = videoFor(m.theme);
+                    return (
+                      <div key={i} style={{ display: "contents" }}>
+                        <div className="msg msg-ai">{m.text}</div>
+                        {o && (
+                          <div className="attach">
+                            <div className="attach-head">
+                              <Flag height={15} />
+                              <span>
+                                {t.attach}
+                                {m.theme ? `, ${themeLabel(m.theme)}` : ""}
+                              </span>
+                            </div>
+                            <div className="attach-body">
+                              <OhabolanaBlock o={o} lang={lang} />
+                              <p className="muted">
+                                {lang === "mg" ? o.meaning_mg : lang === "en" ? o.meaning_en : o.meaning_fr}
+                              </p>
+                              {v && (
+                                <>
+                                  <p className="suggest-label" style={{ margin: 0 }}>
+                                    {t.attachVideo}
+                                  </p>
+                                  <VideoCard v={v} lang={lang} />
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                )}
+                {busy && (
+                  <span className="typing">
+                    {t.thinking}
+                    <span aria-hidden="true">...</span>
+                  </span>
+                )}
+              </div>
 
+              <div className="suggest">
+                <p className="suggest-label">{t.pickTheme}</p>
+                <div className="chips">
+                  {THEME_KEYS.map((k) => (
+                    <button key={k} className="chip" aria-pressed={picked === k} onClick={() => setPicked(k)}>
+                      {themeLabel(k)}
+                    </button>
+                  ))}
+                </div>
+                <p className="suggest-label" style={{ marginTop: 18 }}>
+                  {t.pickPrompt}
+                </p>
+                <div className="prompts">
+                  {prompts.map((p) => (
+                    <button key={p} className="prompt" onClick={() => ask(p)} disabled={busy}>
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="chat-foot">
                 <form
                   className="chat-form"
                   onSubmit={(e) => {
@@ -540,71 +603,53 @@ export default function Home() {
                       }
                     }}
                   />
-                  <button className="btn" type="submit" disabled={busy || !input.trim()}>
-                    {t.send}
+                  <button className="btn send" type="submit" disabled={busy || !input.trim()} aria-label={t.send}>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M12 19V5" />
+                      <path d="m5 12 7-7 7 7" />
+                    </svg>
                   </button>
                 </form>
-
-                <div className="chips">
-                  {THEME_KEYS.map((k) => (
-                    <button
-                      key={k}
-                      className="chip"
-                      aria-pressed={theme === k}
-                      onClick={() => ask(themeAsk(k))}
-                    >
-                      {themeLabel(k)}
-                    </button>
-                  ))}
-                </div>
               </div>
-
-              <aside className="panel panel-tint">
-                {asideOh ? (
-                  <>
-                    <p className="snum" style={{ marginBottom: 12 }}>
-                      <span>{isExample ? t.asideExample : t.asideTheme}</span>
-                      <b>{themeLabel(asideTheme)}</b>
-                    </p>
-                    {isExample && (
-                      <p className="muted" style={{ marginBottom: 16 }}>
-                        {t.asideEmpty}
-                      </p>
-                    )}
-                    <p className="snum" style={{ marginBottom: 10 }}>
-                      <b>{t.asideOh}</b>
-                    </p>
-                    <OhabolanaBlock o={asideOh} lang={lang} />
-                    <p className="muted" style={{ marginTop: 14 }}>
-                      {lang === "mg" ? asideOh.meaning_mg : lang === "en" ? asideOh.meaning_en : asideOh.meaning_fr}
-                    </p>
-                    {asideVideos.length > 0 && (
-                      <>
-                        <hr className="rule" />
-                        <p className="snum" style={{ marginBottom: 12 }}>
-                          <b>{t.asideVideo}</b>
-                        </p>
-                        <div className="videos" style={{ gridTemplateColumns: "1fr" }}>
-                          {asideVideos.map((v) => (
-                            <VideoCard key={v.id} v={v} lang={lang} />
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <p className="muted">{t.asideEmpty}</p>
-                )}
-              </aside>
             </div>
           </div>
         </section>
 
-        {/* 02 ─ Ohabolana */}
-        <section className="section" id="ohabolana">
+        {/* 02 ─ Les aloalo */}
+        <section className="section">
           <div className="wrap">
             <p className="snum">
               <span>02</span>
+              <b>{t.aloaloTitle}</b>
+            </p>
+            <h2 style={{ marginBottom: 12 }}>{t.aloaloTitle}</h2>
+            <p className="lead" style={{ marginBottom: 34 }}>
+              {t.aloaloLead}
+            </p>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "clamp(18px, 4vw, 46px)",
+                alignItems: "flex-end",
+                justifyContent: "space-between",
+                padding: "clamp(20px, 3vw, 34px)",
+                background: "var(--paper-2)",
+                borderRadius: "var(--r-xl)",
+              }}
+            >
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <Aloalo key={i} variant={i} height={210} shaft={62} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 03 ─ Ohabolana */}
+        <section className="section section-tint" id="ohabolana">
+          <div className="wrap">
+            <p className="snum">
+              <span>03</span>
               <b>
                 {OHABOLANA.length} {lang === "mg" ? "ohabolana" : lang === "en" ? "proverbs" : "proverbes"}
               </b>
@@ -621,8 +666,8 @@ export default function Home() {
                     <th style={{ width: "1%" }}>#</th>
                     <th>{lang === "mg" ? "Ohabolana" : lang === "en" ? "Proverb" : "Proverbe"}</th>
                     <th>{lang === "mg" ? "Hevitra" : lang === "en" ? "Meaning" : "Sens"}</th>
-                    <th style={{ width: "18%" }}>{lang === "mg" ? "Toe-javatra" : lang === "en" ? "Situation" : "Situation"}</th>
-                    <th style={{ width: "16%" }}>{lang === "mg" ? "Loharano" : lang === "en" ? "Source" : "Source"}</th>
+                    <th style={{ width: "17%" }}>{lang === "mg" ? "Toe-javatra" : "Situation"}</th>
+                    <th style={{ width: "16%" }}>{lang === "mg" ? "Loharano" : "Source"}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -636,9 +681,7 @@ export default function Home() {
                           {o.mg}
                         </span>
                         <br />
-                        <span style={{ color: "var(--ink-2)", fontSize: ".9rem" }}>
-                          {lang === "en" ? o.en : o.fr}
-                        </span>
+                        <span style={{ color: "var(--ink-2)", fontSize: ".9rem" }}>{lang === "en" ? o.en : o.fr}</span>
                       </td>
                       <td style={{ color: "var(--ink-2)", fontSize: ".9rem" }}>
                         {lang === "mg" ? o.meaning_mg : lang === "en" ? o.meaning_en : o.meaning_fr}
@@ -661,11 +704,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 03 ─ Kolontsaina */}
-        <section className="section section-tint" id="kolontsaina">
+        {/* 04 ─ Kolontsaina */}
+        <section className="section" id="kolontsaina">
           <div className="wrap">
             <p className="snum">
-              <span>03</span>
+              <span>04</span>
               <b>
                 {VIDEOS.length} {lang === "mg" ? "horonan-tsary" : lang === "en" ? "videos" : "videos"}
               </b>
@@ -675,7 +718,7 @@ export default function Home() {
               {t.cultureLead}
             </p>
 
-            <div className="chips" style={{ marginBottom: 24 }}>
+            <div className="chips" style={{ marginBottom: 26 }}>
               <button className="chip" aria-pressed={cat === "all"} onClick={() => setCat("all")}>
                 {t.filterAll}
               </button>
@@ -694,21 +737,21 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 04 ─ Ce qu'iMahay fait */}
-        <section className="section" id="marina">
+        {/* 05 ─ Ce qu'iMahay fait */}
+        <section className="section section-tint" id="marina">
           <div className="wrap">
             <p className="snum">
-              <span>04</span>
+              <span>05</span>
               <b>{t.navTruth}</b>
             </p>
             <h2 style={{ marginBottom: 30 }}>{t.truthTitle}</h2>
 
             <div className="grid grid-2">
               <div className="panel">
-                <h3 style={{ marginBottom: 16, color: "var(--green-deep)" }}>{t.truthDo}</h3>
+                <h3 style={{ marginBottom: 16, color: "var(--green)" }}>{t.truthDo}</h3>
                 {DOES[lang].map((line, i) => (
                   <p key={i} style={{ display: "flex", gap: 12, marginBottom: 12, fontSize: ".95rem", color: "var(--ink-2)" }}>
-                    <span style={{ width: 10, height: 10, background: "var(--green)", flexShrink: 0, marginTop: 7 }} aria-hidden="true" />
+                    <span style={{ width: 10, height: 10, background: "var(--green)", borderRadius: "var(--r-full)", flexShrink: 0, marginTop: 7 }} aria-hidden="true" />
                     <span>{line}</span>
                   </p>
                 ))}
@@ -717,7 +760,7 @@ export default function Home() {
                 <h3 style={{ marginBottom: 16, color: "var(--red-deep)" }}>{t.truthDont}</h3>
                 {DONTS[lang].map((line, i) => (
                   <p key={i} style={{ display: "flex", gap: 12, marginBottom: 12, fontSize: ".95rem", color: "var(--ink-2)" }}>
-                    <span style={{ width: 10, height: 10, border: "2px solid var(--line-strong)", flexShrink: 0, marginTop: 7 }} aria-hidden="true" />
+                    <span style={{ width: 10, height: 10, border: "2px solid var(--red)", borderRadius: "var(--r-full)", flexShrink: 0, marginTop: 7 }} aria-hidden="true" />
                     <span>{line}</span>
                   </p>
                 ))}
@@ -726,12 +769,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 05 ─ Sources */}
+        {/* 06 ─ Sources */}
         <section className="section section-ink">
           <div className="wrap">
             <p className="snum">
-              <span>05</span>
-              <b>{t.srcTitle}</b>
+              <span>06</span>
+              <FlagRow count={5} height={16} />
             </p>
             <h2 style={{ marginBottom: 12 }}>{t.srcTitle}</h2>
             <p className="lead" style={{ marginBottom: 28 }}>
@@ -745,14 +788,15 @@ export default function Home() {
                   target="_blank"
                   rel="noreferrer noopener"
                   style={{
-                    border: "1px solid rgba(250,248,241,.26)",
-                    padding: "18px 20px",
+                    border: "1px solid rgba(255,255,255,.28)",
+                    borderRadius: "var(--r-lg)",
+                    padding: "20px 22px",
                     display: "block",
-                    color: "var(--paper)",
+                    color: "#FFFFFF",
                   }}
                 >
                   <b style={{ display: "block", fontSize: ".97rem", marginBottom: 6 }}>{s.label}</b>
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: ".76rem", color: "rgba(250,248,241,.62)" }}>{s.note}</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: ".76rem", color: "rgba(255,255,255,.68)" }}>{s.note}</span>
                 </a>
               ))}
             </div>
@@ -760,12 +804,23 @@ export default function Home() {
         </section>
       </main>
 
+      <FlagRule thickness={4} />
       <footer className="foot">
         <div className="wrap">
           <div className="foot-grid">
             <div>
               <h4>iMahay</h4>
               <p>{t.footNote}</p>
+            </div>
+            <div>
+              <h4>{t.navOhabolana}</h4>
+              <p>
+                {lang === "mg"
+                  ? "Ny ohabolana rehetra dia voamarina tamin'ny Rakibolana, izay mamerina ny laharana ao amin'ny boky."
+                  : lang === "en"
+                  ? "Every proverb is checked against the Rakibolana, which reprints the number it carries in the collection."
+                  : "Chaque proverbe est verifie dans le Rakibolana, qui reprend le numero porte dans le recueil."}
+              </p>
             </div>
             <div>
               <h4>{t.navCulture}</h4>
@@ -775,22 +830,6 @@ export default function Home() {
                   : lang === "en"
                   ? "Every video belongs to its author and plays from YouTube."
                   : "Chaque video appartient a son auteur et se lit depuis YouTube."}
-              </p>
-              <p style={{ marginTop: 8 }}>
-                <a href={`https://www.youtube.com/results?search_query=${encodeURIComponent(SEARCHES.fomba)}`} target="_blank" rel="noreferrer noopener">
-                  {t.searchMore}
-                </a>
-              </p>
-            </div>
-            <div>
-              <h4>Wikolabs</h4>
-              <p>
-                <a href="https://wikolabs.com" target="_blank" rel="noreferrer noopener">
-                  wikolabs.com
-                </a>
-              </p>
-              <p>
-                <a href="mailto:team@wikolabs.com">team@wikolabs.com</a>
               </p>
             </div>
           </div>
@@ -806,7 +845,7 @@ export default function Home() {
 
       <style>{`
         @media (max-width: 900px) {
-          .hero-grid, .chat-grid { grid-template-columns: minmax(0, 1fr) !important; }
+          .hero-grid { grid-template-columns: minmax(0, 1fr) !important; }
         }
       `}</style>
     </>
